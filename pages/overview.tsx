@@ -513,8 +513,6 @@ export const getServerSideProps = withPageAuthRequired({
       })
     }
 
-    console.log(searchTerm, searchTerm?.length, taskSearchResult)
-
     await prisma.$disconnect()
 
     return {

@@ -56,7 +56,15 @@ import TaskTableRow from '../components/TaskTableRow'
 import ProjectTableRow from '../components/ProjectTableRow'
 import CompletedProjectTableRow from '../components/CompletedProjectTableRow'
 
-function History({ currentUser }) {
+function History({
+  currentUser,
+  completedTaskTotalPriorityArray,
+  uncompletedTaskTotalPriorityArray,
+  taskSearchResult,
+  projectSearchResult,
+}) {
+  const [searchTerm, setSearchTerm] = useState()
+
   var completeProjects = currentUser.Projects.filter(function (project) {
     return project.completed === true
   })
@@ -157,6 +165,111 @@ function History({ currentUser }) {
           backgroundColor="purple.400"
         >
           <OverviewRightColumn />
+
+          <Flex alignContent="center">
+            <InputGroup
+              bgColor="#fff"
+              mb={4}
+              border="none"
+              borderColor="#fff"
+              borderRadius="10px"
+              mr={2}
+            >
+              <InputLeftElement pointerEvents="none"></InputLeftElement>
+              <Input
+                placeholder="Search"
+                _placeholder={{ color: 'gray' }}
+                color="black"
+                borderRadius="10px"
+                boxShadow="base"
+                onChange={(e) => {
+                  setSearchTerm(e.target.value)
+                }}
+              />
+            </InputGroup>
+            <Link href={`?searchterm=${searchTerm}`}>
+              <Button borderRadius="10px" boxShadow="base">
+                Search
+              </Button>
+            </Link>
+          </Flex>
+
+          {(taskSearchResult.length || projectSearchResult.length) > 0 ? (
+            <>
+              <Heading size="lg" color="white">
+                Search Results
+              </Heading>
+              <Divider />
+            </>
+          ) : (
+            <></>
+          )}
+
+          {taskSearchResult.length > 0 ? (
+            <Flex direction="column">
+              <Heading size="md" color="white">
+                Tasks
+              </Heading>
+              <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
+                <Tbody>
+                  {taskSearchResult.map(
+                    ({
+                      id,
+                      title,
+                      description,
+                      priority,
+                      dueDate,
+                      Project,
+                      slug,
+                    }) => (
+                      <TaskTableRow
+                        id={id}
+                        key={id}
+                        title={title}
+                        description={description}
+                        priority={priority}
+                        dueDate={dueDate}
+                        slug={slug}
+                        projectTitle={Project[0].title}
+                      />
+                    )
+                  )}
+                </Tbody>
+              </Table>
+            </Flex>
+          ) : (
+            <></>
+          )}
+
+          {projectSearchResult.length > 0 ? (
+            <Flex direction="column">
+              <Heading size="md" color="white">
+                Projects
+              </Heading>
+              <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
+                <Tbody>
+                  {projectSearchResult.map(
+                    ({ id, title, description, slug }, index) => (
+                      <ProjectTableRow
+                        key={id}
+                        id={id}
+                        title={title}
+                        description={description}
+                        tasks_uncompleted_sum={
+                          uncompletedTaskTotalPriorityArray[index]
+                        }
+                        tasks_completed_sum={
+                          completedTaskTotalPriorityArray[index]
+                        }
+                      />
+                    )
+                  )}
+                </Tbody>
+              </Table>
+            </Flex>
+          ) : (
+            <></>
+          )}
         </Flex>
       </Flex>
     </>
@@ -164,7 +277,7 @@ function History({ currentUser }) {
 }
 
 export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps({ req }) {
+  async getServerSideProps({ req, query }) {
     const {
       user: { email },
     } = await getSession(req)
@@ -184,11 +297,84 @@ export const getServerSideProps = withPageAuthRequired({
       },
     })
 
+    //Getting the sum of completed task fibonacci
+    const completedTasksInProjects = await prisma.project.findMany({
+      where: { ownerId: currentUser?.id },
+      include: {
+        Tasks: {
+          where: {
+            completed: true,
+          },
+        },
+      },
+    })
+
+    const completedTaskTotalPriorityArray = []
+
+    for (let project of completedTasksInProjects) {
+      let tasks_completed_sum = 0
+      for (let task of project.Tasks) {
+        tasks_completed_sum += task.priority
+      }
+      completedTaskTotalPriorityArray.push(tasks_completed_sum)
+    }
+
+    //Getting the sum of uncompleted task fibonacci
+    const uncompletedTasksInProjects = await prisma.project.findMany({
+      where: { ownerId: currentUser?.id },
+      include: {
+        Tasks: {
+          where: {
+            completed: false,
+          },
+        },
+      },
+    })
+
+    const uncompletedTaskTotalPriorityArray = []
+
+    for (let project of uncompletedTasksInProjects) {
+      let tasks_uncompleted_sum = 0
+      for (let task of project.Tasks) {
+        tasks_uncompleted_sum += task.priority
+      }
+      uncompletedTaskTotalPriorityArray.push(tasks_uncompleted_sum)
+    }
+
+    const searchTerm = query.searchterm
+    var taskSearchResult = ''
+    var projectSearchResult = ''
+
+    if (searchTerm?.length > 0) {
+      taskSearchResult = await prisma.task.findMany({
+        where: {
+          title: {
+            search: searchTerm,
+          },
+        },
+        include: {
+          Project: true,
+        },
+      })
+
+      projectSearchResult = await prisma.project.findMany({
+        where: {
+          title: {
+            search: searchTerm,
+          },
+        },
+      })
+    }
+
     await prisma.$disconnect()
 
     return {
       props: {
         currentUser: JSON.parse(JSON.stringify(currentUser)),
+        completedTaskTotalPriorityArray: completedTaskTotalPriorityArray,
+        uncompletedTaskTotalPriorityArray: uncompletedTaskTotalPriorityArray,
+        taskSearchResult: JSON.parse(JSON.stringify(taskSearchResult)),
+        projectSearchResult: JSON.parse(JSON.stringify(projectSearchResult)),
       },
     }
   },

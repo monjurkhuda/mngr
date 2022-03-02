@@ -56,10 +56,8 @@ async function editProject(project) {
 
 const ProjectPage = ({ currentUser, project }) => {
   const [dueDate, setDueDate] = useState()
-  console.log(project)
 
   const parsedDate = Date.parse(project.dueDate)
-  console.log(parsedDate)
 
   const monthFormat = format(parsedDate, 'MMM')
 
@@ -202,6 +200,21 @@ const ProjectPage = ({ currentUser, project }) => {
             </Formik>
           </Flex>
         </Flex>
+        {/* Column 3 */}
+        <Flex
+          display={['none', 'none', 'none', 'none', 'inline']}
+          w={['100%', '100%', null, null, '35%']}
+          p="3%"
+          flexDir="column"
+          overflow="auto"
+          backgroundColor="purple.400"
+        >
+          <OverviewRightColumn
+            username={currentUser.username}
+            profileimage={currentUser.image}
+            email={currentUser.email}
+          />
+        </Flex>
       </Flex>
     </>
   )
@@ -216,7 +229,6 @@ export const getServerSideProps = withPageAuthRequired({
     const currentUser = await prisma.user.findUnique({
       where: { email: email },
     })
-    console.log(params)
 
     const project = await prisma.project.findUnique({
       where: {
