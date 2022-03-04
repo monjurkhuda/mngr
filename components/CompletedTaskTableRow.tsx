@@ -27,6 +27,19 @@ import {
 } from 'react-icons/hi'
 import { BsQuestionSquare, BsClock, BsClockFill } from 'react-icons/bs'
 
+async function uncompleteTaskApi(task) {
+  const response = await fetch('/api/uncompletetask', {
+    method: 'PUT',
+    body: JSON.stringify(task),
+  })
+
+  if (!response.ok) {
+    throw new Error(response.statusText)
+  }
+
+  return await response.json()
+}
+
 function CompletedTaskTableRow(props) {
   const [remainingYears, setRemainingYears] = useState(0)
   const [remainingMonths, setRemainingMonths] = useState(0)
@@ -78,6 +91,18 @@ function CompletedTaskTableRow(props) {
                   <Icon as={BsQuestionSquare} color="gray.500" ml={1}></Icon>
                 </span>
               </Tooltip>
+
+              <Button
+                ml={4}
+                size="xs"
+                boxShadow="base"
+                colorScheme="blue"
+                onClick={() => {
+                  uncompleteTaskApi(props)
+                }}
+              >
+                Mark Incomplete
+              </Button>
             </Flex>
             <Flex mt={2} backgroundColor="gray.100">
               <Text fontSize="sm" color="gray.600" padding={2}>

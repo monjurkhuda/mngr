@@ -1,5 +1,5 @@
-import React from "react";
-import { Heading, Image } from "@chakra-ui/react";
+import React from 'react'
+import { Heading } from '@chakra-ui/react'
 
 function NavigationColumnLogo() {
   return (
@@ -7,14 +7,14 @@ function NavigationColumnLogo() {
       <Heading
         mt={30}
         mb={[25, 50, 100]}
-        fontSize={["4xl", "4xl", "2xl", "3xl", "4xl"]}
+        fontSize={['4xl', '4xl', '2xl', '3xl', '4xl']}
         alignSelf="center"
         letterSpacing="tight"
       >
         M.
       </Heading>
     </>
-  );
+  )
 }
 
-export default NavigationColumnLogo;
+export default NavigationColumnLogo

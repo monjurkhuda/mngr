@@ -41,10 +41,10 @@ import {
 import { HiOutlineClipboardList } from 'react-icons/hi'
 import { RiCalendarEventLine } from 'react-icons/ri'
 
-async function editProject(project) {
-  const response = await fetch('/api/editproject', {
+async function editTask(task) {
+  const response = await fetch('/api/edittask', {
     method: 'PUT',
-    body: JSON.stringify(project),
+    body: JSON.stringify(task),
   })
 
   if (!response.ok) {
@@ -54,10 +54,10 @@ async function editProject(project) {
   return await response.json()
 }
 
-const EditProject = ({ currentUser, project }) => {
+const EditTask = ({ currentUser, task, projects }) => {
   const [dueDate, setDueDate] = useState()
 
-  const parsedDate = Date.parse(project.dueDate)
+  const parsedDate = Date.parse(task.dueDate)
 
   const monthFormat = format(parsedDate, 'MMM')
 
@@ -108,7 +108,7 @@ const EditProject = ({ currentUser, project }) => {
           <Flex>
             <HiOutlineClipboardList size={32} />
             <Heading as="h2" size="lg" letterSpacing="tight" mb={2}>
-              Edit Project
+              Edit Task
             </Heading>
           </Flex>
           <Flex
@@ -121,19 +121,55 @@ const EditProject = ({ currentUser, project }) => {
           >
             <Formik
               initialValues={{
-                id: project.id,
-                title: project.title,
-                description: project.description,
-                dueDate: project.dueDate,
-                ownerId: currentUser.id,
+                id: task.id,
+                title: task.title,
+                description: task.description,
+                priority: task.priority,
+                dueDate: task.dueDate,
+                projectId: task.Project[0].id,
               }}
               onSubmit={async (values, actions) => {
-                await editProject(values)
+                await editTask(values)
                 await alert(JSON.stringify(values))
               }}
             >
               {(props) => (
                 <Form>
+                  <Field name="projectId">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={
+                          form.errors.projectId && form.touched.projectId
+                        }
+                      >
+                        <FormLabel htmlFor="projectId">Project</FormLabel>
+
+                        <select
+                          {...field}
+                          id="projectId"
+                          defaultValue="Choose_Project"
+                          placeholder="Choose Project"
+                          style={{ display: 'block' }}
+                        >
+                          <option value="" selected disabled hidden>
+                            Choose Project
+                          </option>
+                          {projects.map((project) => (
+                            <option
+                              key={project.id}
+                              value={project.id}
+                              label={project.title}
+                            />
+                          ))}
+                        </select>
+
+                        <FormErrorMessage>
+                          {form.errors.projectId}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+
                   <Field name="title">
                     {({ field, form }) => (
                       <FormControl
@@ -168,6 +204,50 @@ const EditProject = ({ currentUser, project }) => {
                         />
                         <FormErrorMessage>
                           {form.errors.description}
+                        </FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+
+                  <Field name="priority" type="radio">
+                    {({ field, form }) => (
+                      <FormControl
+                        isInvalid={
+                          form.errors.priority && form.touched.priority
+                        }
+                      >
+                        <FormLabel htmlFor="priority">Priority</FormLabel>
+                        <div role="group" aria-labelledby="my-radio-group">
+                          <label>
+                            <Field type="radio" name="priority" value="1" />1
+                          </label>
+                          <label>
+                            <Field type="radio" name="priority" value="2" />2
+                          </label>
+                          <label>
+                            <Field type="radio" name="priority" value="3" />3
+                          </label>
+                          <label>
+                            <Field type="radio" name="priority" value="5" />5
+                          </label>
+                          <label>
+                            <Field type="radio" name="priority" value="8" />8
+                          </label>
+                          <label>
+                            <Field type="radio" name="priority" value="13" />
+                            13
+                          </label>
+                          <label>
+                            <Field type="radio" name="priority" value="21" />
+                            21
+                          </label>
+                          <label>
+                            <Field type="radio" name="priority" value="40" />
+                            40
+                          </label>
+                        </div>
+                        <FormErrorMessage>
+                          {form.errors.priority}
                         </FormErrorMessage>
                       </FormControl>
                     )}
@@ -226,9 +306,18 @@ export const getServerSideProps = withPageAuthRequired({
       where: { email: email },
     })
 
-    const project = await prisma.project.findUnique({
+    const task = await prisma.task.findUnique({
       where: {
         id: params.slug,
+      },
+      include: {
+        Project: true,
+      },
+    })
+
+    const projectsFetch = await prisma.project.findMany({
+      where: {
+        completed: false,
       },
     })
 
@@ -237,10 +326,11 @@ export const getServerSideProps = withPageAuthRequired({
     return {
       props: {
         currentUser: JSON.parse(JSON.stringify(currentUser)),
-        project: JSON.parse(JSON.stringify(project)),
+        task: JSON.parse(JSON.stringify(task)),
+        projects: JSON.parse(JSON.stringify(projectsFetch)),
       },
     }
   },
 })
 
-export default EditProject
+export default EditTask

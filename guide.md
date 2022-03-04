@@ -12,7 +12,7 @@ roadmap:
 1. MVP Solo Project Manager:
 
 [x] project progress bar (based on fibonacci "how big is it?" priority)
-[ ] project overview with in-progress and completed lanes.
+[x] project overview with in-progress and completed lanes.
 [x] search projects and tasks (titles)
 
 - Bugs and Fixes:
@@ -21,6 +21,7 @@ roadmap:
 
 2. Project Manager with users and roles:
 
+[ ] task and project images
 [ ] user roles
 [ ] admin and managers can create projects (project avatar image)
 [ ] admin includes users in project and assigns lead

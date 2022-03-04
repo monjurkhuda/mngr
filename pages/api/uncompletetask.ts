@@ -6,16 +6,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(405).json({ message: 'Method not allowed' })
   }
 
-  const profileData = JSON.parse(req.body)
+  const taskData = JSON.parse(req.body)
 
-  const editProfile = await prisma.user.update({
-    where: { id: profileData.id },
+  const uncompleteTaskApi = await prisma.task.update({
+    where: { id: taskData.id },
     data: {
-      image: profileData.image,
-      username: profileData.username,
-      email: profileData.email,
+      completed: false,
     },
   })
 
-  res.json(editProfile)
+  res.json(uncompleteTaskApi)
 }

@@ -10,10 +10,6 @@ import {
 import { PrismaClient } from '@prisma/client'
 import NextLink from 'next/link'
 
-import { RootState } from '../redux/store'
-import { useSelector, useDispatch } from 'react-redux'
-import { setCurrentUserEmail } from '../redux/slices/currentUserSlice'
-
 import {
   Flex,
   Heading,

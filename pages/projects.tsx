@@ -10,10 +10,6 @@ import {
 import { PrismaClient } from '@prisma/client'
 import NextLink from 'next/link'
 
-import { RootState } from '../redux/store'
-import { useSelector, useDispatch } from 'react-redux'
-import { setCurrentUserEmail } from '../redux/slices/currentUserSlice'
-
 import {
   Flex,
   Heading,
@@ -67,6 +63,7 @@ function Overview({
   var completeProjects = currentUser.Projects.filter(function (project) {
     return project.completed === true
   })
+
   return (
     <>
       <Head>
@@ -126,12 +123,13 @@ function Overview({
             <Tbody>
               {incompleteProjects
                 .slice(0, 4)
-                .map(({ id, title, description, slug }, index) => (
+                .map(({ id, title, description, dueDate, slug }, index) => (
                   <ProjectTableRow
                     key={id}
                     id={id}
                     title={title}
                     description={description}
+                    dueDate={dueDate}
                     tasks_uncompleted_sum={
                       uncompletedTaskTotalPriorityArray[index]
                     }
@@ -262,7 +260,7 @@ export const getServerSideProps = withPageAuthRequired({
 
     //Getting the sum of completed task fibonacci
     const completedTasksInProjects = await prisma.project.findMany({
-      where: { ownerId: currentUser?.id },
+      where: { ownerId: currentUser?.id, completed: false },
       include: {
         Tasks: {
           where: {
@@ -284,7 +282,7 @@ export const getServerSideProps = withPageAuthRequired({
 
     //Getting the sum of uncompleted task fibonacci
     const uncompletedTasksInProjects = await prisma.project.findMany({
-      where: { ownerId: currentUser?.id },
+      where: { ownerId: currentUser?.id, completed: false },
       include: {
         Tasks: {
           where: {

@@ -27,10 +27,12 @@ import TaskPage from '../tasks/[slug]'
 import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
 import { RiTaskLine } from 'react-icons/ri'
 import { CgArrowTopRightR } from 'react-icons/cg'
+import TaskTableRow from '../../components/TaskTableRow'
+import CompletedTaskTableRow from '../../components/CompletedTaskTableRow'
+import { BsClockFill } from 'react-icons/bs'
+import { HiOutlineClipboardList } from 'react-icons/hi'
 
 const ProjectPage = ({ project }) => {
-  console.log(project)
-
   var incompleteTasks = project.Tasks.filter(function (task) {
     return task.completed === false
   })
@@ -65,18 +67,66 @@ const ProjectPage = ({ project }) => {
           minH="100vh"
           backgroundColor="#f6f6f6"
         >
-          <Link href={`/projects/editproject/${project.id}`}>
-            <Button>Edit Project</Button>
-          </Link>
-          <Flex>{project.title}</Flex>
-          <Flex>{project.description}</Flex>
-          <Flex>Owner ID: {project.ownerId}</Flex>
-          <Flex>Due: {project.dueDate}</Flex>
-          <Flex>Completed?: {project.completed.toString()}</Flex>
-          <Heading> Pending Tasks:</Heading>
-          {incompleteTasks.map((task) => (
-            <Flex>{task.title}</Flex>
-          ))}
+          <Flex mb={4}>
+            <HiOutlineClipboardList size={32} />
+            <Heading as="h2" size="lg" letterSpacing="tight" ml={1}>
+              Project
+            </Heading>
+          </Flex>
+
+          <Flex
+            direction="column"
+            backgroundColor="white"
+            boxShadow="base"
+            borderRadius={20}
+            p={4}
+          >
+            <Flex>
+              <Heading size="md">{project.title}</Heading>
+              {project.completed === true ? (
+                <Tag ml={2}>✔️ Completed</Tag>
+              ) : (
+                <></>
+              )}
+            </Flex>
+            <Text mt={2}>{project.description}</Text>
+            <Link href={`/projects/editproject/${project.id}`}>
+              <Button w="fit-content" mt={2} colorScheme="yellow">
+                Edit Project
+              </Button>
+            </Link>
+
+            <Flex alignItems="center" justifyContent="flex-end">
+              <Icon as={BsClockFill}></Icon>
+              <Text fontSize="sm" ml={2}>
+                {`Due: ${project.dueDate}`}
+              </Text>
+            </Flex>
+          </Flex>
+
+          {project.completed === true ? (
+            <></>
+          ) : (
+            <Heading size="lg" mt={4}>
+              Pending Tasks:
+            </Heading>
+          )}
+          <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
+            <Tbody>
+              {incompleteTasks.map((task) => (
+                <TaskTableRow
+                  id={task.id}
+                  key={task.id}
+                  title={task.title}
+                  description={task.description}
+                  priority={task.priority}
+                  dueDate={task.dueDate}
+                  slug={task.slug}
+                  projectTitle={project.title}
+                />
+              ))}
+            </Tbody>
+          </Table>
         </Flex>
         {/* Column 3 */}
         <Flex
@@ -101,7 +151,21 @@ const ProjectPage = ({ project }) => {
           <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
             <Tbody>
               {project.Tasks.map((task) =>
-                task.completed === true ? <Flex>{task.title}</Flex> : <></>
+                task.completed === true ? (
+                  <CompletedTaskTableRow
+                    id={task.id}
+                    key={task.id}
+                    title={task.title}
+                    description={task.description}
+                    priority={task.priority}
+                    dueDate={task.dueDate}
+                    slug={task.slug}
+                    completedAt={task.completedAt}
+                    projectTitle={project.title}
+                  />
+                ) : (
+                  <></>
+                )
               )}
             </Tbody>
           </Table>
@@ -139,8 +203,6 @@ const ProjectPage = ({ project }) => {
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps({ params }) {
     const prisma = new PrismaClient()
-
-    console.log(params)
 
     const project = await prisma.project.findUnique({
       where: {

@@ -2,19 +2,18 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../prisma/db'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method !== 'POST') {
+  if (req.method !== 'PUT') {
     return res.status(405).json({ message: 'Method not allowed' })
   }
 
   const taskData = JSON.parse(req.body)
   const parsedIntPriority = parseInt(taskData.priority)
 
-  const createTaskApi = await prisma.task.create({
+  const editTask = await prisma.task.update({
+    where: { id: taskData.id },
     data: {
-      User: {
-        connect: { id: taskData.assignedToId },
-      },
       Project: {
+        set: [],
         connect: { id: taskData.projectId },
       },
       title: taskData.title,
@@ -24,5 +23,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     },
   })
 
-  res.json(createTaskApi)
+  res.json(editTask)
 }

@@ -30,8 +30,8 @@ import { BsQuestionSquare, BsClock, BsClockFill } from 'react-icons/bs'
 function CompletedProjectTableRow(props) {
   const { id, title, description, completedAt, createdAt } = props
 
-  async function completeProjectApi(project) {
-    const response = await fetch('/api/completeproject', {
+  async function uncompleteProjectApi(project) {
+    const response = await fetch('/api/uncompleteproject', {
       method: 'PUT',
       body: JSON.stringify(project),
     })
@@ -59,6 +59,18 @@ function CompletedProjectTableRow(props) {
               <Link href={`/projects/${id}`}>{title}</Link>
             </Text>
           </Flex>
+          <Button
+            ml={2}
+            size="xs"
+            width="fit-content"
+            colorScheme="blue"
+            boxShadow="base"
+            onClick={() => {
+              uncompleteProjectApi(props)
+            }}
+          >
+            Mark Incomplete
+          </Button>
         </Flex>
 
         <Flex mt={2} ml={20} backgroundColor="gray.100">

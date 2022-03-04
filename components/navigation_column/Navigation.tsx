@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Flex } from '@chakra-ui/react'
 import { HiOutlineClipboardList } from 'react-icons/hi'
 import {
@@ -13,12 +13,17 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { PrismaClient } from '@prisma/client'
 
 function Navigation() {
+  const [queryString, setQueryString] = useState('')
   var overviewActive = ''
   var tasksActive = ''
   var projectsActive = ''
   var historyActive = ''
 
-  const queryString = window.location.pathname
+  useEffect(() => {
+    setQueryString(window.location.pathname)
+  }, [queryString])
+
+  //const queryString = window.location.pathname
 
   if (queryString === '/overview') {
     overviewActive = 'active'

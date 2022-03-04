@@ -177,7 +177,6 @@ const ProjectPage = ({ currentUser }) => {
                   </Field>
 
                   <Button
-                    {...props}
                     disabled={!props.dirty}
                     mt={4}
                     colorScheme="purple"

@@ -1,4 +1,4 @@
-import react, { useState } from 'react'
+import react, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Head from 'next/head'
 import {
@@ -9,9 +9,6 @@ import {
 } from '@auth0/nextjs-auth0'
 import { PrismaClient } from '@prisma/client'
 import NextLink from 'next/link'
-import { RootState } from '../redux/store'
-import { useSelector, useDispatch } from 'react-redux'
-import { setCurrentUserEmail } from '../redux/slices/currentUserSlice'
 
 import {
   Flex,
@@ -54,6 +51,8 @@ import TaskTable from '../components/TaskTable'
 import TaskTableRow from '../components/TaskTableRow'
 import ProjectTableRow from '../components/ProjectTableRow'
 import UserProfile from '../components/UserProfile'
+import { useDispatch } from 'react-redux'
+import { addUserInfo } from '../redux/userSlice'
 
 function Overview({
   currentUser,
@@ -63,13 +62,19 @@ function Overview({
   projectSearchResult,
 }) {
   const [searchTerm, setSearchTerm] = useState()
-
-  console.log('task search result', taskSearchResult)
-  console.log('project search result', projectSearchResult)
+  const dispatch = useDispatch()
 
   var incompleteProjects = currentUser.Projects.filter(function (project) {
     return project.completed === false
   })
+
+  dispatch(
+    addUserInfo({
+      username: currentUser.username,
+      email: currentUser.email,
+      image: currentUser.image,
+    })
+  )
 
   return (
     <>
@@ -187,8 +192,6 @@ function Overview({
           overflow="auto"
           backgroundColor="purple.400"
         >
-          <OverviewRightColumn />
-
           <Flex alignContent="center">
             <InputGroup
               bgColor="#fff"
@@ -444,7 +447,7 @@ export const getServerSideProps = withPageAuthRequired({
 
     //Getting the sum of completed task fibonacci
     const completedTasksInProjects = await prisma.project.findMany({
-      where: { ownerId: currentUser?.id },
+      where: { ownerId: currentUser?.id, completed: false },
       include: {
         Tasks: {
           where: {
@@ -466,7 +469,7 @@ export const getServerSideProps = withPageAuthRequired({
 
     //Getting the sum of uncompleted task fibonacci
     const uncompletedTasksInProjects = await prisma.project.findMany({
-      where: { ownerId: currentUser?.id },
+      where: { ownerId: currentUser?.id, completed: false },
       include: {
         Tasks: {
           where: {
@@ -489,8 +492,6 @@ export const getServerSideProps = withPageAuthRequired({
     const searchTerm = query.searchterm
     var taskSearchResult = ''
     var projectSearchResult = ''
-
-    console.log(searchTerm, searchTerm?.length, taskSearchResult)
 
     if (searchTerm?.length > 0) {
       taskSearchResult = await prisma.task.findMany({

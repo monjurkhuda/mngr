@@ -24,6 +24,9 @@ import {
   Icon,
 } from '@chakra-ui/react'
 import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
+import { RiTaskLine } from 'react-icons/ri'
+import { BsClockFill } from 'react-icons/bs'
+import { HiOutlineClipboardList } from 'react-icons/hi'
 
 const TaskPage = ({ task }) => {
   return (
@@ -53,15 +56,64 @@ const TaskPage = ({ task }) => {
           minH="100vh"
           backgroundColor="#f6f6f6"
         >
-          <Link href={`/projects/edittask/${task.id}`}>
-            <Button>Edit Task</Button>
-          </Link>
-          <Flex>{task.title}</Flex>
-          <Flex>{task.description}</Flex>
-          <Flex>Assigned To: {task.assignedToId}</Flex>
-          <Flex>Priority: {task.priority}</Flex>
-          <Flex>Due: {task.dueDate}</Flex>
-          <Flex>Completed?: {task.completed.toString()}</Flex>
+          <Flex mb={4}>
+            <RiTaskLine size={32} />
+            <Heading as="h2" size="lg" letterSpacing="tight" ml={1}>
+              Task
+            </Heading>
+          </Flex>
+
+          <Flex
+            direction="column"
+            backgroundColor="white"
+            boxShadow="base"
+            borderRadius={20}
+            p={4}
+          >
+            <Flex>
+              <Heading size="md">{task.title}</Heading>
+              <Box
+                boxSize={5}
+                backgroundColor="purple.500"
+                ml={2}
+                borderRadius={4}
+              >
+                <Flex
+                  flexDir="column"
+                  textColor="white"
+                  fontWeight="600"
+                  fontSize="sm"
+                  alignItems="center"
+                >
+                  {task.priority}
+                </Flex>
+              </Box>
+              {task.completed === true ? <Tag ml={2}>✔️ Completed</Tag> : <></>}
+            </Flex>
+
+            <Text mt={4}>{task.description}</Text>
+
+            <Link href={`/tasks/edittask/${task.id}`}>
+              <Button w="fit-content" mt={4} colorScheme="yellow">
+                Edit Task
+              </Button>
+            </Link>
+
+            <Flex alignItems="center" justifyContent="space-between" mt={4}>
+              <Flex>
+                <HiOutlineClipboardList size={20} />
+                <Text fontSize="sm" ml={1}>
+                  {task.Project[0].title}
+                </Text>
+              </Flex>
+              <Flex>
+                <Icon as={BsClockFill}></Icon>
+                <Text fontSize="sm" ml={2}>
+                  {`Due: ${task.dueDate}`}
+                </Text>
+              </Flex>
+            </Flex>
+          </Flex>
         </Flex>
         {/* Column 3 */}
         <Flex
@@ -86,6 +138,9 @@ export const getServerSideProps = withPageAuthRequired({
     const task = await prisma.task.findUnique({
       where: {
         id: params.slug,
+      },
+      include: {
+        Project: true,
       },
     })
 

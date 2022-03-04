@@ -23,7 +23,6 @@ import {
 } from '@chakra-ui/react'
 import NavigationColumnLogo from './NavigationColumnLogo'
 import Navigation from './Navigation'
-import NavigationProfile from '../overview_right_column/UserProfile'
 
 function NavigationColumn() {
   return (

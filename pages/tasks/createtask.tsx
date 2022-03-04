@@ -63,8 +63,6 @@ async function createTaskApi(task) {
 function createtask({ users, projects, currentUser }) {
   const [dueDate, setDueDate] = useState()
 
-  console.log(currentUser)
-
   function DatePickerField({ name }) {
     const formik = useFormikContext()
     const field = formik.getFieldProps(name)

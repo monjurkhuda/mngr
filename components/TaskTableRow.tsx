@@ -44,6 +44,7 @@ function TaskTableRow(props) {
   const [remainingYears, setRemainingYears] = useState(0)
   const [remainingMonths, setRemainingMonths] = useState(0)
   const [remainingDays, setRemainingDays] = useState(0)
+  const [pastDue, setPastDue] = useState(false)
 
   const { id, title, priority, description, projectTitle, slug } = props
 
@@ -52,6 +53,10 @@ function TaskTableRow(props) {
     const now = new Date()
     if (endDate) {
       const end = new Date(endDate)
+
+      if (now > end) {
+        setPastDue(true)
+      }
 
       return intervalToDuration({
         start: now,
@@ -62,7 +67,8 @@ function TaskTableRow(props) {
 
   useEffect(() => {
     const dur = remaining()
-    if (dur) {
+
+    if (dur && pastDue === false) {
       const { years, months, days } = dur
       setRemainingYears(years)
       setRemainingMonths(months)
@@ -123,7 +129,7 @@ function TaskTableRow(props) {
                   completeTaskApi(props)
                 }}
               >
-                Mark As Completed
+                Mark Complete
               </Button>
             </Flex>
             <Flex mt={2} backgroundColor="gray.100">
@@ -148,6 +154,7 @@ function TaskTableRow(props) {
           <Flex flexDir="row" alignItems="center" ml={20}>
             <Icon as={BsClockFill}></Icon>
             <Text fontSize="sm" ml={2}>
+              {pastDue === true ? 'Past Due by ' : ''}
               {remainingYears > 0
                 ? `${remainingYears} years, ${remainingMonths} months, ${remainingDays} days`
                 : remainingMonths > 0
@@ -159,9 +166,6 @@ function TaskTableRow(props) {
                 : 'Error'}
             </Text>
           </Flex>
-          <Text fontSize="sm" ml={4}>
-            Last Update: Nov 3, 2021
-          </Text>
         </Flex>
       </Td>
     </Tr>

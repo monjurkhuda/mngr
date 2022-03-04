@@ -26,10 +26,11 @@ import { RiCalendarEventLine } from 'react-icons/ri'
 import { FiChevronUp, FiChevronDown, FiSearch, FiBell } from 'react-icons/fi'
 import { IoIosExit, IoMdExit } from 'react-icons/io'
 import TaskTable from '../TaskTable'
+import { useSelector } from 'react-redux'
+import { selectUser } from '../../redux/store'
 
-function OverviewRightColumn(props) {
-  const { username, profileimage, email } = props
-
+function OverviewRightColumn() {
+  const userInfo = useSelector(selectUser)
   const today = format(new Date(), 'MMM d, yyyy')
 
   return (
@@ -60,21 +61,25 @@ function OverviewRightColumn(props) {
           <Heading size="md">My Profile:</Heading>
         </Flex>
         <Flex mt={4}>
-          <Avatar src={profileimage} size="lg"></Avatar>
+          <Avatar src={userInfo.image} size="lg"></Avatar>
           <Flex direction="column" ml={4}>
             <Text fontSize="lg" fontWeight="700" color="blackAlpha.700">
-              {username}
+              {userInfo.username}
             </Text>
             <Text fontSize="md" color="blackAlpha.800" mt={1}>
-              {email}
+              {userInfo.email}
             </Text>
           </Flex>
         </Flex>
         <Flex mt={4} justifyContent="flex-end">
-          <Button colorScheme="purple">Edit Profile</Button>
-          <Button colorScheme="pink" ml={6}>
-            Sign Out
-          </Button>
+          <Link href="/editprofile">
+            <Button colorScheme="purple">Edit Profile</Button>
+          </Link>
+          <Link href="/api/auth/logout">
+            <Button colorScheme="pink" ml={6}>
+              Sign Out
+            </Button>
+          </Link>
         </Flex>
       </Flex>
     </>

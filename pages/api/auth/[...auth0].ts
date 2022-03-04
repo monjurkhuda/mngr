@@ -2,8 +2,6 @@ import { handleAuth, handleCallback } from '@auth0/nextjs-auth0'
 import { createUser } from '../../../utils/db'
 
 const afterCallback = async (req, res, session, state) => {
-  console.log(session)
-
   try {
     await createUser(session.user.email)
   } catch (err) {

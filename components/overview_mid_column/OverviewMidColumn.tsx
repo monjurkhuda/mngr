@@ -38,21 +38,6 @@ function OverviewMidColumn() {
 
   return (
     <>
-      {/* <Flex justifyContent="space-between" mt={8}>
-        <Flex align="flex-end">
-          <RiFullscreenExitFill size={32} />
-          <Heading as="h2" size="lg" letterSpacing="tight" ml={2}>
-            Tasks
-          </Heading>
-          <Icon as={RiCalendarEventLine} ml={6} mb={1}></Icon>
-          <Text fontSize="small" ml={2} mb={1}>
-            Nov 11, 2021
-          </Text>
-        </Flex>
-      </Flex>
-
-      <TaskTable /> */}
-
       <Flex justifyContent="space-between" mt={8}>
         <Flex align="flex-end">
           <RiFullscreenExitFill size={32} />
