@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react'
+import { intervalToDuration } from 'date-fns'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { PrismaClient } from '@prisma/client'
 import NavigationColumn from '../../components/navigation_column/NavigationColumn'
@@ -33,12 +35,45 @@ import { BsClockFill } from 'react-icons/bs'
 import { HiOutlineClipboardList } from 'react-icons/hi'
 
 const ProjectPage = ({ project }) => {
+  const [remainingYears, setRemainingYears] = useState(0)
+  const [remainingMonths, setRemainingMonths] = useState(0)
+  const [remainingDays, setRemainingDays] = useState(0)
+  const [pastDue, setPastDue] = useState(false)
+
   var incompleteTasks = project.Tasks.filter(function (task) {
     return task.completed === false
   })
   var completeTasks = project.Tasks.filter(function (task) {
     return task.completed === true
   })
+
+  const remaining = () => {
+    const endDate = project.dueDate
+    const now = new Date()
+    if (endDate) {
+      const end = new Date(endDate)
+
+      if (now > end) {
+        setPastDue(true)
+      }
+
+      return intervalToDuration({
+        start: now,
+        end: end,
+      })
+    }
+  }
+
+  useEffect(() => {
+    const dur = remaining()
+
+    if (dur && pastDue === false) {
+      const { years, months, days } = dur
+      setRemainingYears(years)
+      setRemainingMonths(months)
+      setRemainingDays(days)
+    }
+  }, [])
 
   return (
     <>
@@ -98,8 +133,17 @@ const ProjectPage = ({ project }) => {
 
             <Flex alignItems="center" justifyContent="flex-end">
               <Icon as={BsClockFill}></Icon>
-              <Text fontSize="sm" ml={2}>
-                {`Due: ${project.dueDate}`}
+              <Text fontSize="sm" ml={1}>
+                {pastDue === true ? 'Past Due by ' : ''}
+                {remainingYears > 0
+                  ? `${remainingYears} years, ${remainingMonths} months, ${remainingDays} days`
+                  : remainingMonths > 0
+                  ? `${remainingMonths} months, ${remainingDays} days`
+                  : remainingMonths === 0 && remainingDays > 0
+                  ? `${remainingDays} days`
+                  : remainingDays === 0
+                  ? `Today`
+                  : 'Error'}
               </Text>
             </Flex>
           </Flex>

@@ -17,7 +17,7 @@ roadmap:
 
 - Bugs and Fixes:
 - [x] fix remaining time. Keeps counting in reverse when past due
-- [ ] shouldn't submit time for dueDate, only day. Fix display when editing project or task
+- [x] Fix date display when editing project or task
 
 2. Project Manager with users and roles:
 

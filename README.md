@@ -2,14 +2,14 @@
 
 ## design:
 
-- [ ] redux framework
+- [x] redux framework
 - [ ] jest testing
 - [ ] graphql
 - [x] postgres database
 
 # Roadmap:
 
-## MVP Solo Project Manager:
+## Beta: MVP Solo Project Manager:
 
 - [x] project progress bar (based on fibonacci "how big is it?" priority)
 - [x] project overview with in-progress and completed lanes.
@@ -18,9 +18,9 @@
 ### Bugs and Fixes:
 
 - [x] fix remaining time. Keeps counting in reverse when past due
-- [ ] shouldn't submit time for dueDate, only day. Fix display when editing project or task
+- [x] Fix date display when editing project or task
 
-## Project Manager with users and roles:
+## Alpha: Project Manager with users and roles:
 
 - [ ] task and project images
 - [ ] user roles

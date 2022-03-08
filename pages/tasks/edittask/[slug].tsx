@@ -55,11 +55,9 @@ async function editTask(task) {
 }
 
 const EditTask = ({ currentUser, task, projects }) => {
-  const [dueDate, setDueDate] = useState()
-
   const parsedDate = Date.parse(task.dueDate)
 
-  const monthFormat = format(parsedDate, 'MMM')
+  const [dueDate, setDueDate] = useState(new Date(parsedDate))
 
   function DatePickerField({ name }) {
     const formik = useFormikContext()
@@ -68,7 +66,7 @@ const EditTask = ({ currentUser, task, projects }) => {
     return (
       <DatePicker
         selected={dueDate}
-        value={field.value}
+        //value={field.value}
         onChange={(date) => {
           setDueDate(date)
           formik.setFieldValue(name, date)
