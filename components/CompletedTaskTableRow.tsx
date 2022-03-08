@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { intervalToDuration } from 'date-fns'
+import { format } from 'date-fns'
 import {
   CircularProgress,
   Flex,
@@ -47,6 +47,8 @@ function CompletedTaskTableRow(props) {
 
   const { id, title, priority, description, projectTitle, completedAt, slug } =
     props
+
+  const completedAtFormatted = format(new Date(completedAt), 'MMM do, Y')
 
   return (
     <Tr backgroundColor="white" borderTop="2px" borderColor="#f6f6f6">
@@ -124,7 +126,7 @@ function CompletedTaskTableRow(props) {
           mt={1}
         >
           <Text fontSize="sm" ml={4}>
-            Completed At: {completedAt}
+            Completed: {completedAtFormatted}
           </Text>
         </Flex>
       </Td>

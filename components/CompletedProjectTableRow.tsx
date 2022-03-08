@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { format } from 'date-fns'
 import {
   CircularProgress,
   CircularProgressLabel,
@@ -29,6 +30,8 @@ import { BsQuestionSquare, BsClock, BsClockFill } from 'react-icons/bs'
 
 function CompletedProjectTableRow(props) {
   const { id, title, description, completedAt, createdAt } = props
+  const createdAtFormatted = format(new Date(createdAt), 'MMM do, Y')
+  const completedAtFormatted = format(new Date(completedAt), 'MMM do, Y')
 
   async function uncompleteProjectApi(project) {
     const response = await fetch('/api/uncompleteproject', {
@@ -88,11 +91,11 @@ function CompletedProjectTableRow(props) {
           <Flex flexDir="row" alignItems="center" ml={20}>
             <Icon as={BsClockFill}></Icon>
             <Text fontSize="sm" ml={2}>
-              {`Created At: ${createdAt}`}
+              {`Start: ${createdAtFormatted}`}
             </Text>
           </Flex>
           <Text fontSize="sm" ml={4}>
-            {`Completed At: ${completedAt}`}
+            {`End: ${completedAtFormatted}`}
           </Text>
         </Flex>
       </Td>
