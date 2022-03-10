@@ -1,57 +1,31 @@
-import react, { useEffect, useState } from 'react'
-import Image from 'next/image'
-import Head from 'next/head'
+import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import {
-  withPageAuthRequired,
-  useUser,
-  getSession,
-  UserProvider,
-} from '@auth0/nextjs-auth0'
-import { PrismaClient } from '@prisma/client'
-import NextLink from 'next/link'
-
-import {
+  Button,
+  Divider,
   Flex,
   Heading,
-  Avatar,
-  AvatarGroup,
-  Text,
   Icon,
-  IconButton,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
-  Link,
-  Box,
-  Button,
   Input,
   InputGroup,
   InputLeftElement,
-  Tag,
+  Link,
+  Table,
+  Tbody,
 } from '@chakra-ui/react'
-import { HiOutlineClipboardList } from 'react-icons/hi'
-import {
-  RiSettings5Line,
-  RiEyeLine,
-  RiPencilRuler2Line,
-  RiTaskLine,
-  RiCalendarEventLine,
-  RiFullscreenExitFill,
-} from 'react-icons/ri'
-import { IoSearchCircleOutline } from 'react-icons/io5'
+import { PrismaClient } from '@prisma/client'
+import Head from 'next/head'
+import NextLink from 'next/link'
+import { useState } from 'react'
 import { CgArrowTopRightR } from 'react-icons/cg'
-import NavigationColumn from '../components/navigation_column/NavigationColumn'
-import OverviewMidColumn from '../components/overview_mid_column/OverviewMidColumn'
-import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
-import TaskTable from '../components/TaskTable'
-import TaskTableRow from '../components/TaskTableRow'
-import ProjectTableRow from '../components/ProjectTableRow'
-import UserProfile from '../components/UserProfile'
+import { HiOutlineClipboardList } from 'react-icons/hi'
+import { RiTaskLine } from 'react-icons/ri'
 import { useDispatch } from 'react-redux'
+import NavigationColumn from '../components/navigation_column/NavigationColumn'
+import ProjectTableRow from '../components/ProjectTableRow'
+import ProjectSearchResult from '../components/search_result/ProjectSearchResult'
+import TaskSearchResult from '../components/search_result/TaskSearchResult'
+import TaskTableRow from '../components/TaskTableRow'
+import UserProfile from '../components/UserProfile'
 import { addUserInfo } from '../redux/userSlice'
 
 function Overview({
@@ -113,12 +87,8 @@ function Overview({
             <Flex align="flex-end">
               <RiTaskLine size={32} />
               <Heading as="h2" size="lg" letterSpacing="tight" ml={1}>
-                Tasks To Do
+                Tasks
               </Heading>
-              <Icon as={RiCalendarEventLine} ml={6} mb={1}></Icon>
-              <Text fontSize="small" ml={2} mb={1}>
-                Nov 11, 2021
-              </Text>
             </Flex>
             <NextLink href="/tasks/createtask">
               <Button
@@ -280,7 +250,7 @@ function Overview({
 
           {(taskSearchResult.length || projectSearchResult.length) > 0 ? (
             <>
-              <Heading size="lg" color="white">
+              <Heading size="lg" color="white" mb={2}>
                 Search Results
               </Heading>
               <Divider />
@@ -350,29 +320,19 @@ function Overview({
 
           {taskSearchResult.length > 0 ? (
             <Flex direction="column">
-              <Heading size="md" color="white">
+              <Heading size="md" color="white" mt={4}>
                 Tasks
               </Heading>
               <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
                 <Tbody>
                   {taskSearchResult.map(
-                    ({
-                      id,
-                      title,
-                      description,
-                      priority,
-                      dueDate,
-                      Project,
-                      slug,
-                    }) => (
-                      <TaskTableRow
+                    ({ id, title, description, priority, Project }) => (
+                      <TaskSearchResult
                         id={id}
                         key={id}
                         title={title}
                         description={description}
                         priority={priority}
-                        dueDate={dueDate}
-                        slug={slug}
                         projectTitle={Project[0].title}
                       />
                     )
@@ -386,14 +346,14 @@ function Overview({
 
           {projectSearchResult.length > 0 ? (
             <Flex direction="column">
-              <Heading size="md" color="white">
+              <Heading size="md" color="white" mt={4}>
                 Projects
               </Heading>
               <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
                 <Tbody>
                   {projectSearchResult.map(
-                    ({ id, title, description, slug }, index) => (
-                      <ProjectTableRow
+                    ({ id, title, description }, index) => (
+                      <ProjectSearchResult
                         key={id}
                         id={id}
                         title={title}

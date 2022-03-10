@@ -22,7 +22,8 @@
     "pages/api/auth/[...auth0].js",
     "components/test.js",
     "pages/dashboard.jsx",
-    "pages/history.jsx"
+    "pages/history.jsx",
+    "pages/api/graphql.js"
   ],
   "exclude": ["node_modules"]
 }

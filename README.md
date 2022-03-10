@@ -4,7 +4,6 @@
 
 - [x] redux framework
 - [ ] jest testing
-- [ ] graphql
 - [x] postgres database
 
 # Roadmap:
@@ -19,6 +18,7 @@
 
 - [x] fix remaining time. Keeps counting in reverse when past due
 - [x] Fix date display when editing project or task
+- [x] create components for project and task search results
 
 ## Alpha: Project Manager with users and roles:
 

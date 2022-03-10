@@ -10,13 +10,17 @@
     "export": "next export"
   },
   "dependencies": {
+    "@apollo/client": "^3.5.10",
     "@auth0/nextjs-auth0": "^1.2.0",
     "@prisma/client": "^2.30.0",
     "@reduxjs/toolkit": "^1.7.1",
     "@types/react-datepicker": "^4.3.4",
+    "apollo-server-micro": "2.25.1",
     "axios": "^0.21.1",
     "date-fns": "^2.28.0",
     "formik": "^2.2.9",
+    "graphql": "^15.8.0",
+    "graphql-request": "^4.0.0",
     "micro": "^9.3.4",
     "next": "^10.0.7",
     "react": "^17.0.1",

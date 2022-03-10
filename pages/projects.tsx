@@ -1,55 +1,14 @@
-import react, { useState } from 'react'
-import Image from 'next/image'
-import Head from 'next/head'
-import {
-  withPageAuthRequired,
-  useUser,
-  getSession,
-  UserProvider,
-} from '@auth0/nextjs-auth0'
+import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
+import { Button, Flex, Heading, Icon, Table, Tbody } from '@chakra-ui/react'
 import { PrismaClient } from '@prisma/client'
+import Head from 'next/head'
 import NextLink from 'next/link'
-
-import {
-  Flex,
-  Heading,
-  Avatar,
-  AvatarGroup,
-  Text,
-  Icon,
-  IconButton,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
-  Link,
-  Box,
-  Button,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Tag,
-} from '@chakra-ui/react'
-import { HiOutlineClipboardList } from 'react-icons/hi'
-import {
-  RiSettings5Line,
-  RiEyeLine,
-  RiPencilRuler2Line,
-  RiTaskLine,
-  RiCalendarEventLine,
-  RiFullscreenExitFill,
-} from 'react-icons/ri'
 import { CgArrowTopRightR } from 'react-icons/cg'
-import NavigationColumn from '../components/navigation_column/NavigationColumn'
-import OverviewMidColumn from '../components/overview_mid_column/OverviewMidColumn'
-import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
-import TaskTable from '../components/TaskTable'
-import TaskTableRow from '../components/TaskTableRow'
-import ProjectTableRow from '../components/ProjectTableRow'
+import { HiOutlineClipboardList } from 'react-icons/hi'
 import CompletedProjectTableRow from '../components/CompletedProjectTableRow'
+import NavigationColumn from '../components/navigation_column/NavigationColumn'
+import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
+import ProjectTableRow from '../components/ProjectTableRow'
 
 function Overview({
   currentUser,
@@ -100,12 +59,8 @@ function Overview({
             <Flex align="flex-end">
               <HiOutlineClipboardList size={32} />
               <Heading as="h2" size="lg" letterSpacing="tight" ml={1}>
-                Projects in Progress
+                Projects
               </Heading>
-              <Icon as={RiCalendarEventLine} ml={6} mb={1}></Icon>
-              <Text fontSize="small" ml={2} mb={1}>
-                Nov 11, 2021
-              </Text>
             </Flex>
             <NextLink href="/tasks/createtask">
               <Button

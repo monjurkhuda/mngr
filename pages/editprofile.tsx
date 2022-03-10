@@ -1,45 +1,20 @@
+import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
+import {
+  Avatar,
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  Input,
+} from '@chakra-ui/react'
+import { Field, Form, Formik } from 'formik'
 import React, { useState } from 'react'
-import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik'
+import 'react-datepicker/dist/react-datepicker.css'
+import { HiOutlineClipboardList } from 'react-icons/hi'
 import NavigationColumn from '../components/navigation_column/NavigationColumn'
 import { prisma } from '../prisma/db'
-import { withPageAuthRequired, useUser, getSession } from '@auth0/nextjs-auth0'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import {
-  format,
-  formatDistance,
-  formatRelative,
-  subDays,
-  parse,
-} from 'date-fns'
-import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
-import {
-  CircularProgress,
-  CircularProgressLabel,
-  Progress,
-  Flex,
-  Button,
-  Heading,
-  Avatar,
-  Text,
-  IconButton,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Tag,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
-  Box,
-  Input,
-  Icon,
-} from '@chakra-ui/react'
-import { HiOutlineClipboardList } from 'react-icons/hi'
-import { RiCalendarEventLine } from 'react-icons/ri'
 
 async function editProfile(profile) {
   const response = await fetch('/api/editprofile', {

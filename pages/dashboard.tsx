@@ -1,24 +1,9 @@
-import NextLink from 'next/link'
-import { withPageAuthRequired, getSession } from '@auth0/nextjs-auth0'
+import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
+import { Button, Flex, Icon, Table, Tbody } from '@chakra-ui/react'
 import { PrismaClient } from '@prisma/client'
-import {
-  Flex,
-  Heading,
-  Avatar,
-  Text,
-  IconButton,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
-  Button,
-  Icon,
-} from '@chakra-ui/react'
-import TaskTableRow from '../components/TaskTableRow'
+import NextLink from 'next/link'
 import { MdOutlineArrowDropDownCircle } from 'react-icons/md'
+import TaskTableRow from '../components/TaskTableRow'
 
 const DashboardPage = ({ dbUser }) => {
   return (
