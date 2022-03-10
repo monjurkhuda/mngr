@@ -4,6 +4,7 @@
 
 - [x] redux framework
 - [ ] jest testing
+- [x] graphql
 - [x] postgres database
 
 # Roadmap:

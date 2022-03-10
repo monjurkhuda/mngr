@@ -8,6 +8,7 @@ import {
   RiTaskLine,
   RiHistoryLine,
 } from 'react-icons/ri'
+import { GiEgyptianProfile } from 'react-icons/gi'
 import NavigationItem from './NavigationItem'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { PrismaClient } from '@prisma/client'
@@ -18,6 +19,7 @@ function Navigation() {
   var tasksActive = ''
   var projectsActive = ''
   var historyActive = ''
+  var usersActive = ''
 
   useEffect(() => {
     setQueryString(window.location.pathname)
@@ -33,6 +35,8 @@ function Navigation() {
     projectsActive = 'active'
   } else if (queryString === '/history') {
     historyActive = 'active'
+  } else if (queryString === '/users') {
+    usersActive = 'active'
   }
 
   return (
@@ -68,6 +72,13 @@ function Navigation() {
           icon={RiHistoryLine}
           text={'My History'}
           link={'/history'}
+        />
+
+        <NavigationItem
+          navClass={usersActive}
+          icon={GiEgyptianProfile}
+          text={'Users'}
+          link={'/users'}
         />
       </Flex>
     </>
