@@ -80,13 +80,6 @@ function TaskTableRow(props) {
     <Tr backgroundColor="white" borderTop="2px" borderColor="#f6f6f6">
       <Td>
         <Flex align="center">
-          <Avatar
-            boxShadow="md"
-            size="md"
-            mr={4}
-            ml={4}
-            src="https://w7.pngwing.com/pngs/249/19/png-transparent-google-logo-g-suite-google-guava-google-plus-company-text-logo.png"
-          />
           <Flex flexDir="column">
             <Flex flexDir="row" alignItems="center">
               <Text fontSize="lg" fontWeight={600}>
@@ -137,12 +130,6 @@ function TaskTableRow(props) {
                 {description}
               </Text>
             </Flex>
-            <Flex flexDir="row" alignItems="center" mt={2}>
-              <HiOutlineClipboardList size={20} />
-              <Text fontSize="sm" ml={1}>
-                {projectTitle}
-              </Text>
-            </Flex>
           </Flex>
         </Flex>
         <Flex
@@ -151,7 +138,13 @@ function TaskTableRow(props) {
           justifyContent="space-between"
           mt={1}
         >
-          <Flex flexDir="row" alignItems="center" ml={20}>
+          <Flex flexDir="row" alignItems="center" mt={2}>
+            <HiOutlineClipboardList size={20} />
+            <Text fontSize="sm" ml={1}>
+              {projectTitle}
+            </Text>
+          </Flex>
+          <Flex flexDir="row" alignItems="center">
             <Icon as={BsClockFill}></Icon>
             <Text fontSize="sm" ml={2}>
               {pastDue === true ? 'Past Due by ' : ''}

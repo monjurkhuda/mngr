@@ -12,6 +12,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     where: { id: projectData.id },
     data: {
       title: projectData.title,
+      image: projectData.image,
       description: projectData.description,
       dueDate: projectData.dueDate,
     },

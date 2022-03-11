@@ -27,6 +27,7 @@ enum Role {
 
 model Project {
   id          String    @id @default(uuid())
+  image       String?
   ownerId     String
   User        User?     @relation(fields: [ownerId], references: [id])
   createdAt   DateTime  @default(now())

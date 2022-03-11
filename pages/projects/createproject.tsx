@@ -48,6 +48,7 @@ async function createProject(project) {
 
 function createproject({ currentUser }) {
   const [dueDate, setDueDate] = useState()
+  const [projectImage, setProjectImage] = useState()
 
   function DatePickerField({ name }) {
     const formik = useFormikContext()
@@ -109,29 +110,51 @@ function createproject({ currentUser }) {
             <Formik
               initialValues={{
                 title: '',
+                image: '',
                 description: '',
                 dueDate: '',
                 ownerId: currentUser.id,
               }}
               onSubmit={async (values, actions) => {
                 await createProject(values)
-                await alert(JSON.stringify(values))
+                //await alert(JSON.stringify(values))
               }}
             >
               {(props) => (
                 <Form>
+                  <Avatar src={projectImage} size="lg" />
+
+                  <Field name="image">
+                    {({ field, form }) => (
+                      <FormControl
+                        w={['30vh', '30vh', '50vh', '65vh', '50vh']}
+                        isInvalid={form.errors.image && form.touched.image}
+                      >
+                        <Input
+                          {...field}
+                          id="image"
+                          placeholder="Project Logo"
+                          mt={4}
+                          onChange={(e) => {
+                            setProjectImage(e.target.value)
+                          }}
+                        />
+                        <FormErrorMessage>{form.errors.image}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+
                   <Field name="title">
                     {({ field, form }) => (
                       <FormControl
                         w={['30vh', '30vh', '50vh', '65vh', '50vh']}
                         isInvalid={form.errors.title && form.touched.title}
                       >
-                        <FormLabel htmlFor="createtask">Title</FormLabel>
                         <Input
                           {...field}
                           id="title"
                           placeholder="Title"
-                          width="100%"
+                          mt={4}
                         />
                         <FormErrorMessage>{form.errors.title}</FormErrorMessage>
                       </FormControl>
@@ -145,12 +168,12 @@ function createproject({ currentUser }) {
                           form.errors.description && form.touched.description
                         }
                       >
-                        <FormLabel htmlFor="description">Description</FormLabel>
                         <Input
                           {...field}
                           id="description"
                           placeholder="Description"
                           type="text"
+                          mt={4}
                         />
                         <FormErrorMessage>
                           {form.errors.description}
@@ -159,26 +182,14 @@ function createproject({ currentUser }) {
                     )}
                   </Field>
 
-                  {/* <Field name="dueDate">
-                    {({ field, form }) => (
-                      <FormControl
-                        isInvalid={form.errors.dueDate && form.touched.dueDate}
-                      >
-                        <FormLabel htmlFor="dueDate">Due Date</FormLabel>
-                        <Input {...field} id="dueDate" placeholder="Due Date" />
-                        <FormErrorMessage>
-                          {form.errors.dueDate}
-                        </FormErrorMessage>
-                      </FormControl>
-                    )}
-                  </Field> */}
-
-                  <Icon as={RiCalendarEventLine} ml={6} mb={1}></Icon>
-                  {' Due Date: '}
+                  <Flex alignContent="center" alignItems="center" mt={4}>
+                    <Icon as={RiCalendarEventLine}></Icon>
+                    <Text ml={1}>Due Date:</Text>
+                  </Flex>
 
                   <Flex
-                    backgroundColor="#e6e6e6"
-                    mt={2}
+                    backgroundColor="purple.500"
+                    mt={1}
                     padding="0.2em"
                     w="fit-content"
                   >

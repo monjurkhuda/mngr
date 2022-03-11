@@ -1,38 +1,27 @@
-import { useState, useEffect } from 'react'
-import { intervalToDuration } from 'date-fns'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
-import { PrismaClient } from '@prisma/client'
-import NavigationColumn from '../../components/navigation_column/NavigationColumn'
-import Link from 'next/link'
 import {
-  CircularProgress,
-  CircularProgressLabel,
-  Progress,
-  Flex,
-  Button,
-  Heading,
   Avatar,
-  Text,
-  IconButton,
-  Tag,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
-  Box,
+  Button,
+  Flex,
+  Heading,
   Icon,
+  Table,
+  Tag,
+  Tbody,
+  Text,
 } from '@chakra-ui/react'
-import TaskPage from '../tasks/[slug]'
-import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
-import { RiTaskLine } from 'react-icons/ri'
-import { CgArrowTopRightR } from 'react-icons/cg'
-import TaskTableRow from '../../components/TaskTableRow'
-import CompletedTaskTableRow from '../../components/CompletedTaskTableRow'
+import { PrismaClient } from '@prisma/client'
+import { intervalToDuration } from 'date-fns'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { BsClockFill } from 'react-icons/bs'
+import { CgArrowTopRightR } from 'react-icons/cg'
 import { HiOutlineClipboardList } from 'react-icons/hi'
+import { RiTaskLine } from 'react-icons/ri'
+import CompletedTaskTableRow from '../../components/CompletedTaskTableRow'
+import NavigationColumn from '../../components/navigation_column/NavigationColumn'
+import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
+import TaskTableRow from '../../components/TaskTableRow'
 
 const ProjectPage = ({ project }) => {
   const [remainingYears, setRemainingYears] = useState(0)
@@ -116,6 +105,7 @@ const ProjectPage = ({ project }) => {
             borderRadius={20}
             p={4}
           >
+            <Avatar src={project.image} size="lg" mb={2} />
             <Flex>
               <Heading size="md">{project.title}</Heading>
               {project.completed === true ? (

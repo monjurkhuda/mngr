@@ -14,6 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         connect: { id: projectData.ownerId },
       },
       title: projectData.title,
+      image: projectData.image,
       description: projectData.description,
       dueDate: projectData.dueDate,
     },

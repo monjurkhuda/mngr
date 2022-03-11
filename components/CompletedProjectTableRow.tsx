@@ -1,35 +1,11 @@
-import React from 'react'
-import Link from 'next/link'
+import { Avatar, Button, Flex, Icon, Td, Text, Tr } from '@chakra-ui/react'
 import { format } from 'date-fns'
-import {
-  CircularProgress,
-  CircularProgressLabel,
-  Progress,
-  Flex,
-  Heading,
-  Avatar,
-  Text,
-  IconButton,
-  Tag,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
-  Box,
-  Icon,
-  Button,
-} from '@chakra-ui/react'
-import {
-  HiOutlineClipboardList,
-  HiOutlineQuestionMarkCircle,
-} from 'react-icons/hi'
-import { BsQuestionSquare, BsClock, BsClockFill } from 'react-icons/bs'
+import Link from 'next/link'
+import React from 'react'
+import { BsClockFill } from 'react-icons/bs'
 
 function CompletedProjectTableRow(props) {
-  const { id, title, description, completedAt, createdAt } = props
+  const { id, title, image, description, completedAt, createdAt } = props
   const createdAtFormatted = format(new Date(createdAt), 'MMM do, Y')
   const completedAtFormatted = format(new Date(completedAt), 'MMM do, Y')
 
@@ -50,13 +26,7 @@ function CompletedProjectTableRow(props) {
     <Tr backgroundColor="white" borderTop="2px" borderColor="#f6f6f6">
       <Td>
         <Flex align="center">
-          <Avatar
-            boxShadow="md"
-            size="md"
-            mr={4}
-            ml={4}
-            src="https://w7.pngwing.com/pngs/249/19/png-transparent-google-logo-g-suite-google-guava-google-plus-company-text-logo.png"
-          />
+          <Avatar boxShadow="md" size="md" mr={4} ml={4} src={image} />
           <Flex flexDir="row" alignItems="center">
             <Text fontSize="lg" fontWeight={600}>
               <Link href={`/projects/${id}`}>{title}</Link>

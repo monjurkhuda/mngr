@@ -274,10 +274,11 @@ function Overview({
                 <Tbody>
                   {incompleteProjects
                     .slice(0, 4)
-                    .map(({ id, title, description, slug }, index) => (
+                    .map(({ id, image, title, description, slug }, index) => (
                       <ProjectTableRow
                         key={id}
                         id={id}
+                        image={image}
                         title={title}
                         description={description}
                         tasks_uncompleted_sum={

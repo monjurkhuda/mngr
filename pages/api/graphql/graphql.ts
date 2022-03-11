@@ -23,6 +23,7 @@ const typeDefs = gql`
 
   type Project {
     id: String
+    image: String
     ownerId: String
     User: User
     createdAt: DateTime

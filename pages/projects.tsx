@@ -62,7 +62,7 @@ function Overview({
                 Projects
               </Heading>
             </Flex>
-            <NextLink href="/tasks/createtask">
+            <NextLink href="/projects/createproject">
               <Button
                 width="fit-content"
                 height="100%"
@@ -78,19 +78,24 @@ function Overview({
             <Tbody>
               {incompleteProjects
                 .slice(0, 4)
-                .map(({ id, title, description, dueDate, slug }, index) => (
-                  <ProjectTableRow
-                    key={id}
-                    id={id}
-                    title={title}
-                    description={description}
-                    dueDate={dueDate}
-                    tasks_uncompleted_sum={
-                      uncompletedTaskTotalPriorityArray[index]
-                    }
-                    tasks_completed_sum={completedTaskTotalPriorityArray[index]}
-                  />
-                ))}
+                .map(
+                  ({ id, image, title, description, dueDate, slug }, index) => (
+                    <ProjectTableRow
+                      key={id}
+                      id={id}
+                      title={title}
+                      image={image}
+                      description={description}
+                      dueDate={dueDate}
+                      tasks_uncompleted_sum={
+                        uncompletedTaskTotalPriorityArray[index]
+                      }
+                      tasks_completed_sum={
+                        completedTaskTotalPriorityArray[index]
+                      }
+                    />
+                  )
+                )}
             </Tbody>
           </Table>
 
@@ -141,13 +146,22 @@ function Overview({
                 .slice(0, 4)
                 .map(
                   (
-                    { id, title, description, slug, completedAt, createdAt },
+                    {
+                      id,
+                      image,
+                      title,
+                      description,
+                      slug,
+                      completedAt,
+                      createdAt,
+                    },
                     index
                   ) => (
                     <CompletedProjectTableRow
                       key={id}
                       id={id}
                       title={title}
+                      image={image}
                       description={description}
                       completedAt={completedAt}
                       createdAt={createdAt}

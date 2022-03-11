@@ -1,45 +1,24 @@
+import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
+import {
+  Avatar,
+  Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  Heading,
+  Icon,
+  Input,
+  Text,
+} from '@chakra-ui/react'
+import { Field, Form, Formik, useFormikContext } from 'formik'
 import React, { useState } from 'react'
-import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik'
-import NavigationColumn from '../../../components/navigation_column/NavigationColumn'
-import { prisma } from '../../../prisma/db'
-import { withPageAuthRequired, useUser, getSession } from '@auth0/nextjs-auth0'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import {
-  format,
-  formatDistance,
-  formatRelative,
-  subDays,
-  parse,
-} from 'date-fns'
-import OverviewRightColumn from '../../../components/overview_right_column/OverviewRightColumn'
-import {
-  CircularProgress,
-  CircularProgressLabel,
-  Progress,
-  Flex,
-  Button,
-  Heading,
-  Avatar,
-  Text,
-  IconButton,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Tag,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
-  Box,
-  Input,
-  Icon,
-} from '@chakra-ui/react'
 import { HiOutlineClipboardList } from 'react-icons/hi'
 import { RiCalendarEventLine } from 'react-icons/ri'
+import NavigationColumn from '../../../components/navigation_column/NavigationColumn'
+import OverviewRightColumn from '../../../components/overview_right_column/OverviewRightColumn'
+import { prisma } from '../../../prisma/db'
 
 async function editProject(project) {
   const response = await fetch('/api/editproject', {
@@ -58,6 +37,7 @@ const EditProject = ({ currentUser, project }) => {
   const parsedDate = Date.parse(project.dueDate)
 
   const [dueDate, setDueDate] = useState(new Date(parsedDate))
+  const [projectImage, setProjectImage] = useState()
 
   function DatePickerField({ name }) {
     const formik = useFormikContext()
@@ -119,6 +99,7 @@ const EditProject = ({ currentUser, project }) => {
             <Formik
               initialValues={{
                 id: project.id,
+                image: project.image,
                 title: project.title,
                 description: project.description,
                 dueDate: project.dueDate,
@@ -126,23 +107,41 @@ const EditProject = ({ currentUser, project }) => {
               }}
               onSubmit={async (values, actions) => {
                 await editProject(values)
-                await alert(JSON.stringify(values))
+                //await alert(JSON.stringify(values))
               }}
             >
               {(props) => (
                 <Form>
+                  <Avatar src={project.image} size="lg" />
+
+                  <Field name="image">
+                    {({ field, form }) => (
+                      <FormControl
+                        w={['30vh', '30vh', '50vh', '65vh', '50vh']}
+                        isInvalid={form.errors.image && form.touched.image}
+                      >
+                        <Input
+                          {...field}
+                          id="image"
+                          placeholder="Project Logo"
+                          mt={4}
+                        />
+                        <FormErrorMessage>{form.errors.image}</FormErrorMessage>
+                      </FormControl>
+                    )}
+                  </Field>
+
                   <Field name="title">
                     {({ field, form }) => (
                       <FormControl
                         w={['30vh', '30vh', '50vh', '65vh', '50vh']}
                         isInvalid={form.errors.title && form.touched.title}
                       >
-                        <FormLabel htmlFor="title">Title</FormLabel>
                         <Input
                           {...field}
                           id="title"
                           placeholder="Title"
-                          width="100%"
+                          mt={4}
                         />
                         <FormErrorMessage>{form.errors.title}</FormErrorMessage>
                       </FormControl>
@@ -156,12 +155,12 @@ const EditProject = ({ currentUser, project }) => {
                           form.errors.description && form.touched.description
                         }
                       >
-                        <FormLabel htmlFor="description">Description</FormLabel>
                         <Input
                           {...field}
                           id="description"
                           placeholder="Description"
                           type="text"
+                          mt={4}
                         />
                         <FormErrorMessage>
                           {form.errors.description}
@@ -170,12 +169,14 @@ const EditProject = ({ currentUser, project }) => {
                     )}
                   </Field>
 
-                  <Icon as={RiCalendarEventLine} ml={6} mb={1}></Icon>
-                  {' Due Date: '}
+                  <Flex alignContent="center" alignItems="center" mt={4}>
+                    <Icon as={RiCalendarEventLine}></Icon>
+                    <Text ml={1}>Due Date:</Text>
+                  </Flex>
 
                   <Flex
-                    backgroundColor="#e6e6e6"
-                    mt={2}
+                    backgroundColor="purple.500"
+                    mt={1}
                     padding="0.2em"
                     w="fit-content"
                   >

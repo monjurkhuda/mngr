@@ -83,13 +83,22 @@ function History({
             <Tbody>
               {completeProjects.map(
                 (
-                  { id, title, description, slug, completedAt, createdAt },
+                  {
+                    id,
+                    title,
+                    image,
+                    description,
+                    slug,
+                    completedAt,
+                    createdAt,
+                  },
                   index
                 ) => (
                   <CompletedProjectTableRow
                     key={id}
                     id={id}
                     title={title}
+                    image={image}
                     description={description}
                     completedAt={completedAt}
                     createdAt={createdAt}

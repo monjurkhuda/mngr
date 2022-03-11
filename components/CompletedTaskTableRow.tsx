@@ -54,13 +54,6 @@ function CompletedTaskTableRow(props) {
     <Tr backgroundColor="white" borderTop="2px" borderColor="#f6f6f6">
       <Td>
         <Flex align="center">
-          <Avatar
-            boxShadow="md"
-            size="md"
-            mr={4}
-            ml={4}
-            src="https://w7.pngwing.com/pngs/249/19/png-transparent-google-logo-g-suite-google-guava-google-plus-company-text-logo.png"
-          />
           <Flex flexDir="column">
             <Flex flexDir="row" alignItems="center">
               <Text fontSize="lg" fontWeight={600}>

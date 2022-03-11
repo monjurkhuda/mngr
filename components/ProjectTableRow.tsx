@@ -1,32 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { intervalToDuration } from 'date-fns'
 import {
-  CircularProgress,
-  CircularProgressLabel,
-  Progress,
-  Flex,
-  Heading,
   Avatar,
-  Text,
-  IconButton,
-  Tag,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
-  Box,
-  Icon,
   Button,
+  Flex,
+  Icon,
+  Progress,
+  Td,
+  Text,
+  Tr,
 } from '@chakra-ui/react'
-import {
-  HiOutlineClipboardList,
-  HiOutlineQuestionMarkCircle,
-} from 'react-icons/hi'
-import { BsQuestionSquare, BsClock, BsClockFill } from 'react-icons/bs'
+import { intervalToDuration } from 'date-fns'
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
+import { BsClockFill } from 'react-icons/bs'
 
 function ProjectTableRow(props) {
   const [remainingYears, setRemainingYears] = useState(0)
@@ -61,8 +46,14 @@ function ProjectTableRow(props) {
     }
   }, [])
 
-  const { id, title, description, tasks_completed_sum, tasks_uncompleted_sum } =
-    props
+  const {
+    id,
+    image,
+    title,
+    description,
+    tasks_completed_sum,
+    tasks_uncompleted_sum,
+  } = props
 
   function projectCompletedPercentage() {
     if (tasks_completed_sum === 0 && tasks_uncompleted_sum === 0) {
@@ -96,13 +87,7 @@ function ProjectTableRow(props) {
     <Tr backgroundColor="white" borderTop="2px" borderColor="#f6f6f6">
       <Td>
         <Flex align="center">
-          <Avatar
-            boxShadow="md"
-            size="md"
-            mr={4}
-            ml={4}
-            src="https://w7.pngwing.com/pngs/249/19/png-transparent-google-logo-g-suite-google-guava-google-plus-company-text-logo.png"
-          />
+          <Avatar boxShadow="md" size="md" mr={4} ml={4} src={image} />
           <Flex flexDir="column">
             <Flex flexDir="row" alignItems="center">
               <Text fontSize="lg" fontWeight={600}>

@@ -20,6 +20,7 @@
 - [x] fix remaining time. Keeps counting in reverse when past due
 - [x] Fix date display when editing project or task
 - [x] create components for project and task search results
+- [x] implement project images, remove task images
 
 ## Alpha: Project Manager with users and roles:
 
