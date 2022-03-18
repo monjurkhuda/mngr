@@ -25,18 +25,40 @@ function CompletedProjectTableRow(props) {
   return (
     <Tr backgroundColor="white" borderTop="2px" borderColor="#f6f6f6">
       <Td>
-        <Flex align="center">
-          <Avatar boxShadow="md" size="md" mr={4} ml={4} src={image} />
-          <Flex flexDir="row" alignItems="center">
+        <Flex direction="column" width="100%">
+          <Flex alignItems="center">
+            <Avatar boxShadow="md" size="md" mr={2} src={image} />
             <Text fontSize="lg" fontWeight={600}>
               <Link href={`/projects/${id}`}>{title}</Link>
             </Text>
           </Flex>
+
+          <Flex mt={2} backgroundColor="gray.50">
+            <Text fontSize="sm" color="gray.600" padding={2}>
+              {description}
+            </Text>
+          </Flex>
+
+          <Flex
+            flexDir="row"
+            alignItems="center"
+            justifyContent="space-between"
+            mt={1}
+          >
+            <Flex flexDir="row" alignItems="center">
+              <Icon as={BsClockFill}></Icon>
+              <Text fontSize="sm" ml={2}>
+                {`Start: ${createdAtFormatted}`}
+              </Text>
+            </Flex>
+            <Text fontSize="sm" ml={4}>
+              {`End: ${completedAtFormatted}`}
+            </Text>
+          </Flex>
+
           <Button
-            ml={2}
-            size="xs"
-            width="fit-content"
-            colorScheme="blue"
+            mt={2}
+            colorScheme="red"
             boxShadow="base"
             onClick={() => {
               uncompleteProjectApi(props)
@@ -44,29 +66,6 @@ function CompletedProjectTableRow(props) {
           >
             Mark Incomplete
           </Button>
-        </Flex>
-
-        <Flex mt={2} ml={20} backgroundColor="gray.100">
-          <Text fontSize="sm" color="gray.600" padding={2}>
-            {description}
-          </Text>
-        </Flex>
-
-        <Flex
-          flexDir="row"
-          alignItems="center"
-          justifyContent="space-between"
-          mt={1}
-        >
-          <Flex flexDir="row" alignItems="center" ml={20}>
-            <Icon as={BsClockFill}></Icon>
-            <Text fontSize="sm" ml={2}>
-              {`Start: ${createdAtFormatted}`}
-            </Text>
-          </Flex>
-          <Text fontSize="sm" ml={4}>
-            {`End: ${completedAtFormatted}`}
-          </Text>
         </Flex>
       </Td>
     </Tr>

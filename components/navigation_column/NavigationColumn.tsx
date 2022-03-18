@@ -23,6 +23,7 @@ import {
 } from '@chakra-ui/react'
 import NavigationColumnLogo from './NavigationColumnLogo'
 import Navigation from './Navigation'
+import UserProfile from '../UserProfile'
 
 function NavigationColumn() {
   return (
@@ -32,13 +33,8 @@ function NavigationColumn() {
         h={[null, null, '100vh']}
         justifyContent="space-between"
       >
-        <Flex flexDir="column" as="nav" mt={6}>
+        <Flex as="nav">
           <NavigationColumnLogo />
-          <Divider />
-          <br />
-          <Navigation />
-          <br />
-          <Divider />
         </Flex>
       </Flex>
     </>

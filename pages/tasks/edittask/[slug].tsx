@@ -37,9 +37,12 @@ import {
   Box,
   Input,
   Icon,
+  Select,
 } from '@chakra-ui/react'
 import { HiOutlineClipboardList } from 'react-icons/hi'
 import { RiCalendarEventLine } from 'react-icons/ri'
+import NavigationColumnLogo from '../../../components/navigation_column/NavigationColumnLogo'
+import Navigation from '../../../components/navigation_column/Navigation'
 
 async function editTask(task) {
   const response = await fetch('/api/edittask', {
@@ -84,13 +87,18 @@ const EditTask = ({ currentUser, task, projects }) => {
       >
         {/* Column 1 */}
         <Flex
-          w={['100%', '100%', '10%', '10%', '10%']}
           flexDir="column"
-          alignItems="center"
+          w={['100%', '100%', '10%', '10%', '10%']}
+          h={['100%', '100%', '30%', '30%', '30%']}
           borderRight="2px"
           borderColor="#eeeeee"
+          alignItems="center"
+          justifyContent="space-between"
+          justifyItems="space-between"
+          alignContent="space-between"
         >
-          <NavigationColumn />
+          <NavigationColumnLogo />
+          <Navigation />
         </Flex>
         {/*Column2*/}
 
@@ -142,7 +150,7 @@ const EditTask = ({ currentUser, task, projects }) => {
                       >
                         <FormLabel htmlFor="projectId">Project</FormLabel>
 
-                        <select
+                        <Select
                           {...field}
                           id="projectId"
                           defaultValue="Choose_Project"
@@ -159,7 +167,7 @@ const EditTask = ({ currentUser, task, projects }) => {
                               label={project.title}
                             />
                           ))}
-                        </select>
+                        </Select>
 
                         <FormErrorMessage>
                           {form.errors.projectId}
@@ -174,12 +182,14 @@ const EditTask = ({ currentUser, task, projects }) => {
                         w={['30vh', '30vh', '50vh', '65vh', '50vh']}
                         isInvalid={form.errors.title && form.touched.title}
                       >
-                        <FormLabel htmlFor="title">Title</FormLabel>
+                        <FormLabel mt={2} htmlFor="title">
+                          Title
+                        </FormLabel>
                         <Input
                           {...field}
                           id="title"
                           placeholder="Title"
-                          width="100%"
+                          type="text"
                         />
                         <FormErrorMessage>{form.errors.title}</FormErrorMessage>
                       </FormControl>
@@ -193,7 +203,9 @@ const EditTask = ({ currentUser, task, projects }) => {
                           form.errors.description && form.touched.description
                         }
                       >
-                        <FormLabel htmlFor="description">Description</FormLabel>
+                        <FormLabel mt={2} htmlFor="description">
+                          Description
+                        </FormLabel>
                         <Input
                           {...field}
                           id="description"
@@ -214,7 +226,9 @@ const EditTask = ({ currentUser, task, projects }) => {
                           form.errors.priority && form.touched.priority
                         }
                       >
-                        <FormLabel htmlFor="priority">Priority</FormLabel>
+                        <FormLabel htmlFor="priority" mt={2}>
+                          Priority
+                        </FormLabel>
                         <div role="group" aria-labelledby="my-radio-group">
                           <label>
                             <Field type="radio" name="priority" value="1" />1
@@ -251,8 +265,9 @@ const EditTask = ({ currentUser, task, projects }) => {
                     )}
                   </Field>
 
-                  <Icon as={RiCalendarEventLine} ml={6} mb={1}></Icon>
-                  {' Due Date: '}
+                  <FormLabel mt={2} htmlFor="dueDate">
+                    Due Date
+                  </FormLabel>
 
                   <Flex
                     backgroundColor="#e6e6e6"

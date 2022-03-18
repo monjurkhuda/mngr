@@ -19,7 +19,9 @@ import { CgArrowTopRightR } from 'react-icons/cg'
 import { HiOutlineClipboardList } from 'react-icons/hi'
 import { RiTaskLine } from 'react-icons/ri'
 import CompletedTaskTableRow from '../../components/CompletedTaskTableRow'
+import Navigation from '../../components/navigation_column/Navigation'
 import NavigationColumn from '../../components/navigation_column/NavigationColumn'
+import NavigationColumnLogo from '../../components/navigation_column/NavigationColumnLogo'
 import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
 import TaskTableRow from '../../components/TaskTableRow'
 
@@ -73,13 +75,18 @@ const ProjectPage = ({ project }) => {
       >
         {/* Column 1 */}
         <Flex
-          w={['100%', '100%', '10%', '10%', '10%']}
           flexDir="column"
-          alignItems="center"
+          w={['100%', '100%', '10%', '10%', '10%']}
+          h={['100%', '100%', '30%', '30%', '30%']}
           borderRight="2px"
           borderColor="#eeeeee"
+          alignItems="center"
+          justifyContent="space-between"
+          justifyItems="space-between"
+          alignContent="space-between"
         >
-          <NavigationColumn />
+          <NavigationColumnLogo />
+          <Navigation />
         </Flex>
         {/*Column2*/}
         <Flex
@@ -161,26 +168,10 @@ const ProjectPage = ({ project }) => {
               ))}
             </Tbody>
           </Table>
-        </Flex>
-        {/* Column 3 */}
-        <Flex
-          display={['none', 'none', 'none', 'none', 'inline']}
-          w={['100%', '100%', null, null, '35%']}
-          p="3%"
-          flexDir="column"
-          overflow="auto"
-          backgroundColor="purple.400"
-        >
-          <OverviewRightColumn />
 
-          <Flex justifyContent="space-between" mt={8}>
-            <Flex align="flex-end">
-              <RiTaskLine size={40} color="white" />
-              <Heading as="h2" size="xl" color="white">
-                Completed Tasks
-              </Heading>
-            </Flex>
-          </Flex>
+          <Heading size="lg" mt={4}>
+            Completed Tasks
+          </Heading>
 
           <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
             <Tbody>
@@ -211,23 +202,24 @@ const ProjectPage = ({ project }) => {
             color="gray.500"
           >
             {completeTasks.length > 0 ? (
-              <Button mt={2} colorScheme="yellow">
-                History
-                <Icon as={CgArrowTopRightR} ml={2} />
-              </Button>
+              <></>
             ) : (
-              <Flex
-                backgroundColor="purple.500"
-                w="100%"
-                color="white"
-                borderRadius={10}
-                padding={2}
-                mt={4}
-              >
+              <Flex w="100%" borderRadius={10} padding={2} mt={2}>
                 0 Completed Projects Found . . . .
               </Flex>
             )}
           </Flex>
+        </Flex>
+        {/* Column 3 */}
+        <Flex
+          display={['none', 'none', 'none', 'none', 'inline']}
+          w={['100%', '100%', null, null, '35%']}
+          p="3%"
+          flexDir="column"
+          overflow="auto"
+          backgroundColor="purple.400"
+        >
+          <OverviewRightColumn />
         </Flex>
       </Flex>
     </>

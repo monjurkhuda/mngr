@@ -53,9 +53,9 @@ function CompletedTaskTableRow(props) {
   return (
     <Tr backgroundColor="white" borderTop="2px" borderColor="#f6f6f6">
       <Td>
-        <Flex align="center">
-          <Flex flexDir="column">
-            <Flex flexDir="row" alignItems="center">
+        <Flex direction="column" width="100%">
+          <Flex alignItems="center">
+            <Flex alignItems="center">
               <Text fontSize="lg" fontWeight={600}>
                 <Link href={`/tasks/${id}`}>{title}</Link>
               </Text>
@@ -86,41 +86,40 @@ function CompletedTaskTableRow(props) {
                   <Icon as={BsQuestionSquare} color="gray.500" ml={1}></Icon>
                 </span>
               </Tooltip>
+            </Flex>
+          </Flex>
+          <Flex mt={2} backgroundColor="gray.50">
+            <Text fontSize="sm" color="gray.600" padding={2}>
+              {description}
+            </Text>
+          </Flex>
 
-              <Button
-                ml={4}
-                size="xs"
-                boxShadow="base"
-                colorScheme="blue"
-                onClick={() => {
-                  uncompleteTaskApi(props)
-                }}
-              >
-                Mark Incomplete
-              </Button>
-            </Flex>
-            <Flex mt={2} backgroundColor="gray.100">
-              <Text fontSize="sm" color="gray.600" padding={2}>
-                {description}
-              </Text>
-            </Flex>
-            <Flex flexDir="row" alignItems="center" mt={2}>
+          <Flex
+            flexDir="row"
+            alignItems="center"
+            justifyContent="space-between"
+            mt={1}
+          >
+            <Flex alignItems="center">
               <HiOutlineClipboardList size={20} />
               <Text fontSize="sm" ml={1}>
                 {projectTitle}
               </Text>
             </Flex>
+
+            <Text fontSize="sm">Completed: {completedAtFormatted}</Text>
           </Flex>
-        </Flex>
-        <Flex
-          flexDir="row"
-          alignItems="center"
-          justifyContent="flex-end"
-          mt={1}
-        >
-          <Text fontSize="sm" ml={4}>
-            Completed: {completedAtFormatted}
-          </Text>
+
+          <Button
+            mt={2}
+            colorScheme="red"
+            boxShadow="base"
+            onClick={() => {
+              uncompleteTaskApi(props)
+            }}
+          >
+            Mark Incomplete
+          </Button>
         </Flex>
       </Td>
     </Tr>

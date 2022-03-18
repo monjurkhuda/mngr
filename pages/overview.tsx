@@ -11,6 +11,7 @@ import {
   Link,
   Table,
   Tbody,
+  Text,
 } from '@chakra-ui/react'
 import { PrismaClient } from '@prisma/client'
 import Head from 'next/head'
@@ -18,9 +19,12 @@ import NextLink from 'next/link'
 import { useState } from 'react'
 import { CgArrowTopRightR } from 'react-icons/cg'
 import { HiOutlineClipboardList } from 'react-icons/hi'
-import { RiTaskLine } from 'react-icons/ri'
+import { RiHistoryLine, RiTaskLine } from 'react-icons/ri'
 import { useDispatch } from 'react-redux'
+import Navigation from '../components/navigation_column/Navigation'
 import NavigationColumn from '../components/navigation_column/NavigationColumn'
+import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
+import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
 import ProjectTableRow from '../components/ProjectTableRow'
 import ProjectSearchResult from '../components/search_result/ProjectSearchResult'
 import TaskSearchResult from '../components/search_result/TaskSearchResult'
@@ -62,14 +66,18 @@ function Overview({
       >
         {/* Column 1 */}
         <Flex
-          w={['100%', '100%', '10%', '10%', '10%']}
           flexDir="column"
-          alignItems="center"
+          w={['100%', '100%', '10%', '10%', '10%']}
+          h={['100%', '100%', '30%', '30%', '30%']}
           borderRight="2px"
           borderColor="#eeeeee"
+          alignItems="center"
+          justifyContent="space-between"
+          justifyItems="space-between"
+          alignContent="space-between"
         >
-          <NavigationColumn />
-          <UserProfile profilePic={currentUser.image} />
+          <NavigationColumnLogo />
+          <Navigation />
         </Flex>
 
         {/* Column 2 */}
@@ -82,29 +90,44 @@ function Overview({
           minH="100vh"
           backgroundColor="#f6f6f6"
         >
+          <Flex justifyContent="center">
+            <Flex
+              backgroundColor="gray.200"
+              p={2}
+              w="fit-content"
+              borderRadius={20}
+            >
+              <Button colorScheme="purple" size="md" borderRadius={10}>
+                <RiTaskLine size={20} />
+                Tasks
+              </Button>
+              <Link href="/projects">
+                <Button size="md" borderRadius={10} ml={4}>
+                  <HiOutlineClipboardList size={22} />
+                  Projects
+                </Button>
+              </Link>
+            </Flex>
+          </Flex>
+
           {/*Tasks table */}
-          <Flex justifyContent="space-between" mt={8}>
+          <Flex justifyContent="space-between" mt={2}>
             <Flex align="flex-end">
-              <RiTaskLine size={32} />
+              <RiTaskLine size={30} />
               <Heading as="h2" size="lg" letterSpacing="tight" ml={1}>
                 Tasks
               </Heading>
             </Flex>
             <NextLink href="/tasks/createtask">
-              <Button
-                width="fit-content"
-                height="100%"
-                colorScheme="purple"
-                mt={2}
-              >
-                + Create Task
+              <Button width="fit-content" colorScheme="yellow">
+                <Text fontSize={20}>+</Text>
               </Button>
             </NextLink>
           </Flex>
 
           <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
             <Tbody>
-              {currentUser.Tasks.slice(0, 4).map(
+              {currentUser.Tasks.map(
                 ({
                   id,
                   title,
@@ -135,11 +158,15 @@ function Overview({
             alignItems="center"
             color="gray.500"
           >
-            {currentUser.Tasks.length > 0 ? (
+            <Link href="/history">
               <Button mt={2} backgroundColor="gray.200">
-                All Tasks
-                <Icon as={CgArrowTopRightR} ml={2} />
+                History
+                <Icon as={RiHistoryLine} ml={2} />
               </Button>
+            </Link>
+
+            {currentUser.Tasks.length > 0 ? (
+              <></>
             ) : (
               <Flex
                 backgroundColor="gray.200"
@@ -153,6 +180,7 @@ function Overview({
             )}
           </Flex>
         </Flex>
+
         {/* Column 3 */}
         <Flex
           display={['none', 'none', 'none', 'none', 'inline']}
@@ -162,218 +190,7 @@ function Overview({
           overflow="auto"
           backgroundColor="purple.400"
         >
-          <Flex alignContent="center">
-            <InputGroup
-              bgColor="#fff"
-              mb={4}
-              border="none"
-              borderColor="#fff"
-              borderRadius="10px"
-              mr={2}
-            >
-              <InputLeftElement pointerEvents="none"></InputLeftElement>
-              <Input
-                placeholder="Search"
-                _placeholder={{ color: 'gray' }}
-                color="black"
-                borderRadius="10px"
-                boxShadow="base"
-                onChange={(e) => {
-                  setSearchTerm(e.target.value)
-                }}
-              />
-            </InputGroup>
-            <Link href={`?searchterm=${searchTerm}`}>
-              <Button borderRadius="10px" boxShadow="base">
-                Search
-              </Button>
-            </Link>
-          </Flex>
-
-          {/*<Flex justifyContent="space-between" mt={8}>
-            <Flex align="flex-end">
-              <HiOutlineClipboardList size={40} color="white" />
-              <Heading as="h2" size="xl" color="white">
-                Current Projects
-              </Heading>
-            </Flex>
-            <NextLink href="/projects/createproject">
-              <Button width="fit-content" colorScheme="yellow">
-                + Create Project
-              </Button>
-            </NextLink>
-          </Flex>
-
-           <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
-            <Tbody>
-              {incompleteProjects
-                .slice(0, 4)
-                .map(({ id, title, description, slug }, index) => (
-                  <ProjectTableRow
-                    key={id}
-                    id={id}
-                    title={title}
-                    description={description}
-                    tasks_uncompleted_sum={
-                      uncompletedTaskTotalPriorityArray[index]
-                    }
-                    tasks_completed_sum={completedTaskTotalPriorityArray[index]}
-                  />
-                ))}
-            </Tbody>
-          </Table>
-
-          <Flex
-            flexDir="row"
-            justifyContent="center"
-            alignItems="center"
-            color="gray.500"
-          >
-            {currentUser.Projects.length > 0 ? (
-              <Button mt={2} backgroundColor="gray.200">
-                All Projects
-                <Icon as={CgArrowTopRightR} ml={2} />
-              </Button>
-            ) : (
-              <Flex
-                backgroundColor="purple.500"
-                w="100%"
-                color="white"
-                borderRadius={10}
-                padding={2}
-                mt={4}
-              >
-                No Projects Found . . . .
-              </Flex>
-            )}
-          </Flex> */}
-
-          {(taskSearchResult.length || projectSearchResult.length) > 0 ? (
-            <>
-              <Heading size="lg" color="white" mb={2}>
-                Search Results
-              </Heading>
-              <Divider />
-            </>
-          ) : (
-            <>
-              <Flex justifyContent="space-between" mt={8}>
-                <Flex align="flex-end">
-                  <HiOutlineClipboardList size={40} color="white" />
-                  <Heading as="h2" size="xl" color="white">
-                    Current Projects
-                  </Heading>
-                </Flex>
-                <NextLink href="/projects/createproject">
-                  <Button width="fit-content" colorScheme="yellow">
-                    + Create Project
-                  </Button>
-                </NextLink>
-              </Flex>
-              <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
-                <Tbody>
-                  {incompleteProjects
-                    .slice(0, 4)
-                    .map(({ id, image, title, description, slug }, index) => (
-                      <ProjectTableRow
-                        key={id}
-                        id={id}
-                        image={image}
-                        title={title}
-                        description={description}
-                        tasks_uncompleted_sum={
-                          uncompletedTaskTotalPriorityArray[index]
-                        }
-                        tasks_completed_sum={
-                          completedTaskTotalPriorityArray[index]
-                        }
-                      />
-                    ))}
-                </Tbody>
-              </Table>
-
-              <Flex
-                flexDir="row"
-                justifyContent="center"
-                alignItems="center"
-                color="gray.500"
-              >
-                {currentUser.Projects.length > 0 ? (
-                  <Button mt={2} backgroundColor="gray.200">
-                    All Projects
-                    <Icon as={CgArrowTopRightR} ml={2} />
-                  </Button>
-                ) : (
-                  <Flex
-                    backgroundColor="purple.500"
-                    w="100%"
-                    color="white"
-                    borderRadius={10}
-                    padding={2}
-                    mt={4}
-                  >
-                    No Projects Found . . . .
-                  </Flex>
-                )}
-              </Flex>
-            </>
-          )}
-
-          {taskSearchResult.length > 0 ? (
-            <Flex direction="column">
-              <Heading size="md" color="white" mt={4}>
-                Tasks
-              </Heading>
-              <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
-                <Tbody>
-                  {taskSearchResult.map(
-                    ({ id, title, description, priority, Project }) => (
-                      <TaskSearchResult
-                        id={id}
-                        key={id}
-                        title={title}
-                        description={description}
-                        priority={priority}
-                        projectTitle={Project[0].title}
-                      />
-                    )
-                  )}
-                </Tbody>
-              </Table>
-            </Flex>
-          ) : (
-            <></>
-          )}
-
-          {projectSearchResult.length > 0 ? (
-            <Flex direction="column">
-              <Heading size="md" color="white" mt={4}>
-                Projects
-              </Heading>
-              <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
-                <Tbody>
-                  {projectSearchResult.map(
-                    ({ id, title, description }, index) => (
-                      <ProjectSearchResult
-                        key={id}
-                        id={id}
-                        title={title}
-                        description={description}
-                        tasks_uncompleted_sum={
-                          uncompletedTaskTotalPriorityArray[index]
-                        }
-                        tasks_completed_sum={
-                          completedTaskTotalPriorityArray[index]
-                        }
-                      />
-                    )
-                  )}
-                </Tbody>
-              </Table>
-            </Flex>
-          ) : (
-            <></>
-          )}
+          <OverviewRightColumn />
         </Flex>
       </Flex>
     </>

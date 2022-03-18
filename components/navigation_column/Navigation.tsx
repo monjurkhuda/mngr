@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import { Flex } from '@chakra-ui/react'
-import { HiOutlineClipboardList } from 'react-icons/hi'
-import {
-  RiSettings5Line,
-  RiEyeLine,
-  RiPencilRuler2Line,
-  RiTaskLine,
-  RiHistoryLine,
-} from 'react-icons/ri'
+import React, { useEffect, useState } from 'react'
+import { FiUser } from 'react-icons/fi'
 import { GiEgyptianProfile } from 'react-icons/gi'
+import { IoMdExit } from 'react-icons/io'
+import { RiEyeLine, RiHistoryLine } from 'react-icons/ri'
 import NavigationItem from './NavigationItem'
-import { withPageAuthRequired } from '@auth0/nextjs-auth0'
-import { PrismaClient } from '@prisma/client'
 
 function Navigation() {
   const [queryString, setQueryString] = useState('')
@@ -43,6 +36,8 @@ function Navigation() {
     <>
       <Flex
         flexDir={['row', 'row', 'column', 'column', 'column']}
+        mt={[2, 2, 0, 0, 0]}
+        mb={[2, 2, 0, 0, 0]}
         align={['center', 'center', 'center', 'flex-start', 'flex-start']}
         justifyContent="center"
       >
@@ -54,31 +49,24 @@ function Navigation() {
         />
 
         <NavigationItem
-          navClass={tasksActive}
-          icon={RiTaskLine}
-          text={'My Tasks'}
-          link={'/tasks'}
-        />
-
-        <NavigationItem
-          navClass={projectsActive}
-          icon={HiOutlineClipboardList}
-          text={'My Projects'}
-          link={'/projects'}
-        />
-
-        <NavigationItem
           navClass={historyActive}
           icon={RiHistoryLine}
-          text={'My History'}
+          text={'History'}
           link={'/history'}
         />
 
         <NavigationItem
           navClass={usersActive}
-          icon={GiEgyptianProfile}
+          icon={FiUser}
           text={'Users'}
           link={'/users'}
+        />
+
+        <NavigationItem
+          navClass=""
+          icon={IoMdExit}
+          text={'SignOut'}
+          link={'/api/auth/logout'}
         />
       </Flex>
     </>

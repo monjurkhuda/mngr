@@ -27,10 +27,12 @@ import ProjectTableRow from '../components/ProjectTableRow'
 import ProjectSearchResult from '../components/search_result/ProjectSearchResult'
 import TaskSearchResult from '../components/search_result/TaskSearchResult'
 import TaskTableRow from '../components/TaskTableRow'
-import UserProfile from '../components/UserProfile'
 
 import { request, GraphQLClient } from 'graphql-request'
 import { GET_ALL_USERS } from './api/graphql/queries'
+import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
+import Navigation from '../components/navigation_column/Navigation'
+import { FiUser } from 'react-icons/fi'
 
 function Users({ currentUser, allUsers }) {
   console.log(allUsers)
@@ -47,14 +49,18 @@ function Users({ currentUser, allUsers }) {
       >
         {/* Column 1 */}
         <Flex
-          w={['100%', '100%', '10%', '10%', '10%']}
           flexDir="column"
-          alignItems="center"
+          w={['100%', '100%', '10%', '10%', '10%']}
+          h={['100%', '100%', '30%', '30%', '30%']}
           borderRight="2px"
           borderColor="#eeeeee"
+          alignItems="center"
+          justifyContent="space-between"
+          justifyItems="space-between"
+          alignContent="space-between"
         >
-          <NavigationColumn />
-          <UserProfile profilePic={currentUser.image} />
+          <NavigationColumnLogo />
+          <Navigation />
         </Flex>
 
         {/* Column 2 */}
@@ -67,17 +73,51 @@ function Users({ currentUser, allUsers }) {
           minH="100vh"
           backgroundColor="#f6f6f6"
         >
-          {/*Tasks table */}
-          <Flex justifyContent="space-between" mt={8}>
+          <Flex
+            direction="column"
+            display={['flex', 'flex', 'none', 'none', 'none']}
+            mb={4}
+          >
+            <Flex
+              backgroundColor="white"
+              w="100%"
+              h="fit-content"
+              p={4}
+              borderRadius={10}
+              boxShadow="base"
+              direction="column"
+            >
+              <Flex>
+                <Heading size="md">My Profile:</Heading>
+              </Flex>
+              <Flex mt={4}>
+                <Avatar src={currentUser.image} size="lg"></Avatar>
+                <Flex direction="column" ml={4}>
+                  <Text fontSize="lg" fontWeight="700" color="blackAlpha.700">
+                    {currentUser.username}
+                  </Text>
+                  <Text fontSize="md" color="blackAlpha.800" mt={1}>
+                    {currentUser.email}
+                  </Text>
+                </Flex>
+              </Flex>
+              <Flex mt={2} justifyContent="flex-end">
+                <Link href="/editprofile">
+                  <Button colorScheme="yellow">Edit Profile</Button>
+                </Link>
+              </Flex>
+            </Flex>
+          </Flex>
+
+          <Flex mt={2}>
             <Flex align="flex-end">
-              <GiEgyptianProfile size={32} />
               <Heading as="h2" size="lg" letterSpacing="tight" ml={1}>
-                Mngr Users
+                All Users
               </Heading>
             </Flex>
           </Flex>
 
-          <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
+          <Table mt={2} borderBottom="4px" borderColor="#e3e3e3">
             {allUsers.map((user) => (
               <Tbody>
                 <Tr

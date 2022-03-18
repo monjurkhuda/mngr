@@ -24,6 +24,8 @@ import ProjectTableRow from '../components/ProjectTableRow'
 import CompletedProjectTableRow from '../components/CompletedProjectTableRow'
 import TaskSearchResult from '../components/search_result/TaskSearchResult'
 import ProjectSearchResult from '../components/search_result/ProjectSearchResult'
+import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
+import Navigation from '../components/navigation_column/Navigation'
 
 function History({
   currentUser,
@@ -50,13 +52,18 @@ function History({
       >
         {/* Column 1 */}
         <Flex
-          w={['100%', '100%', '10%', '10%', '10%']}
           flexDir="column"
-          alignItems="center"
+          w={['100%', '100%', '10%', '10%', '10%']}
+          h={['100%', '100%', '30%', '30%', '30%']}
           borderRight="2px"
           borderColor="#eeeeee"
+          alignItems="center"
+          justifyContent="space-between"
+          justifyItems="space-between"
+          alignContent="space-between"
         >
-          <NavigationColumn />
+          <NavigationColumnLogo />
+          <Navigation />
         </Flex>
 
         {/* Column 2 */}
@@ -74,7 +81,7 @@ function History({
             <Flex align="flex-end">
               <RiHistoryLine size={32} />
               <Heading as="h2" size="lg" letterSpacing="tight" ml={1}>
-                History
+                Completed Projects
               </Heading>
             </Flex>
           </Flex>

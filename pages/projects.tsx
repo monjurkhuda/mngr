@@ -1,12 +1,24 @@
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
-import { Button, Flex, Heading, Icon, Table, Tbody } from '@chakra-ui/react'
+import {
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  Link,
+  Table,
+  Tbody,
+  Text,
+} from '@chakra-ui/react'
 import { PrismaClient } from '@prisma/client'
 import Head from 'next/head'
 import NextLink from 'next/link'
 import { CgArrowTopRightR } from 'react-icons/cg'
 import { HiOutlineClipboardList } from 'react-icons/hi'
+import { RiHistoryLine, RiTaskLine } from 'react-icons/ri'
 import CompletedProjectTableRow from '../components/CompletedProjectTableRow'
+import Navigation from '../components/navigation_column/Navigation'
 import NavigationColumn from '../components/navigation_column/NavigationColumn'
+import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
 import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
 import ProjectTableRow from '../components/ProjectTableRow'
 
@@ -35,13 +47,18 @@ function Overview({
       >
         {/* Column 1 */}
         <Flex
-          w={['100%', '100%', '10%', '10%', '10%']}
           flexDir="column"
-          alignItems="center"
+          w={['100%', '100%', '10%', '10%', '10%']}
+          h={['100%', '100%', '30%', '30%', '30%']}
           borderRight="2px"
           borderColor="#eeeeee"
+          alignItems="center"
+          justifyContent="space-between"
+          justifyItems="space-between"
+          alignContent="space-between"
         >
-          <NavigationColumn />
+          <NavigationColumnLogo />
+          <Navigation />
         </Flex>
 
         {/* Column 2 */}
@@ -54,8 +71,27 @@ function Overview({
           minH="100vh"
           backgroundColor="#f6f6f6"
         >
+          <Flex justifyContent="center">
+            <Flex
+              backgroundColor="gray.200"
+              p={2}
+              w="fit-content"
+              borderRadius={20}
+            >
+              <Link href="/overview">
+                <Button size="md" borderRadius={10}>
+                  <RiTaskLine size={20} />
+                  Tasks
+                </Button>
+              </Link>
+              <Button colorScheme="purple" size="md" borderRadius={10} ml={4}>
+                <HiOutlineClipboardList size={22} />
+                Projects
+              </Button>
+            </Flex>
+          </Flex>
           {/*Tasks table */}
-          <Flex justifyContent="space-between" mt={8}>
+          <Flex justifyContent="space-between" mt={2}>
             <Flex align="flex-end">
               <HiOutlineClipboardList size={32} />
               <Heading as="h2" size="lg" letterSpacing="tight" ml={1}>
@@ -63,39 +99,30 @@ function Overview({
               </Heading>
             </Flex>
             <NextLink href="/projects/createproject">
-              <Button
-                width="fit-content"
-                height="100%"
-                colorScheme="purple"
-                mt={2}
-              >
-                + Create Project
+              <Button width="fit-content" colorScheme="yellow">
+                <Text fontSize={20}>+</Text>
               </Button>
             </NextLink>
           </Flex>
 
           <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
             <Tbody>
-              {incompleteProjects
-                .slice(0, 4)
-                .map(
-                  ({ id, image, title, description, dueDate, slug }, index) => (
-                    <ProjectTableRow
-                      key={id}
-                      id={id}
-                      title={title}
-                      image={image}
-                      description={description}
-                      dueDate={dueDate}
-                      tasks_uncompleted_sum={
-                        uncompletedTaskTotalPriorityArray[index]
-                      }
-                      tasks_completed_sum={
-                        completedTaskTotalPriorityArray[index]
-                      }
-                    />
-                  )
-                )}
+              {incompleteProjects.map(
+                ({ id, image, title, description, dueDate, slug }, index) => (
+                  <ProjectTableRow
+                    key={id}
+                    id={id}
+                    title={title}
+                    image={image}
+                    description={description}
+                    dueDate={dueDate}
+                    tasks_uncompleted_sum={
+                      uncompletedTaskTotalPriorityArray[index]
+                    }
+                    tasks_completed_sum={completedTaskTotalPriorityArray[index]}
+                  />
+                )
+              )}
             </Tbody>
           </Table>
 
@@ -105,6 +132,13 @@ function Overview({
             alignItems="center"
             color="gray.500"
           >
+            <Link href="/history">
+              <Button mt={2} backgroundColor="gray.200">
+                History
+                <Icon as={RiHistoryLine} ml={2} />
+              </Button>
+            </Link>
+
             {currentUser.Tasks.length > 0 ? (
               <></>
             ) : (

@@ -12,6 +12,7 @@ import { intervalToDuration } from 'date-fns'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { BsClockFill } from 'react-icons/bs'
+import { MdOutlineDone } from 'react-icons/md'
 
 function ProjectTableRow(props) {
   const [remainingYears, setRemainingYears] = useState(0)
@@ -86,68 +87,67 @@ function ProjectTableRow(props) {
   return (
     <Tr backgroundColor="white" borderTop="2px" borderColor="#f6f6f6">
       <Td>
-        <Flex align="center">
-          <Avatar boxShadow="md" size="md" mr={4} ml={4} src={image} />
-          <Flex flexDir="column">
+        <Flex direction="column" w="100%">
+          <Flex alignItems="center">
+            <Avatar boxShadow="md" size="md" mr={2} src={image} />
+            <Text fontSize="lg" fontWeight={600}>
+              <Link href={`/projects/${id}`}>{title}</Link>
+            </Text>
+          </Flex>
+
+          <Flex mt={2} backgroundColor="gray.50">
+            <Text fontSize="sm" color="gray.600" padding={2}>
+              {description}
+            </Text>
+          </Flex>
+
+          <Progress
+            value={projectCompletedPercentage()}
+            height={2}
+            colorScheme="green"
+            mt={2}
+          />
+          <Text fontSize="sm" borderRadius={10}>
+            {`${projectCompletedPercentage()} % Completed`}
+          </Text>
+
+          <Flex
+            flexDir="row"
+            alignItems="center"
+            justifyContent="space-between"
+            mt={1}
+          >
             <Flex flexDir="row" alignItems="center">
-              <Text fontSize="lg" fontWeight={600}>
-                <Link href={`/projects/${id}`}>{title}</Link>
+              <Icon as={BsClockFill}></Icon>
+              <Text fontSize="sm" ml={2}>
+                {pastDue === true ? 'Late by ' : ''}
+                {remainingYears > 0
+                  ? `${remainingYears} years, ${remainingMonths} months, ${remainingDays} days`
+                  : remainingMonths > 0
+                  ? `${remainingMonths} months, ${remainingDays} days`
+                  : remainingMonths === 0 && remainingDays > 0
+                  ? `${remainingDays} days`
+                  : remainingDays === 0
+                  ? `Today`
+                  : 'Error'}
               </Text>
             </Flex>
 
-            <Progress
-              value={projectCompletedPercentage()}
-              height={2}
-              colorScheme="purple"
-              mt={1}
-            />
-            <Text fontSize="sm" borderRadius={10}>
-              {`${projectCompletedPercentage()} % Completed`}
-            </Text>
             {projectCompletedPercentage() === 100 ? (
               <Button
                 size="xs"
                 width="fit-content"
-                colorScheme="yellow"
+                colorScheme="green"
                 boxShadow="base"
                 onClick={() => {
                   completeProjectApi(props)
                 }}
               >
-                Mark Complete
+                <MdOutlineDone size={20} />
               </Button>
             ) : (
               <></>
             )}
-          </Flex>
-        </Flex>
-
-        <Flex mt={2} ml={20} backgroundColor="gray.100">
-          <Text fontSize="sm" color="gray.600" padding={2}>
-            {description}
-          </Text>
-        </Flex>
-
-        <Flex
-          flexDir="row"
-          alignItems="center"
-          justifyContent="space-between"
-          mt={1}
-        >
-          <Flex flexDir="row" alignItems="center" ml={20}>
-            <Icon as={BsClockFill}></Icon>
-            <Text fontSize="sm" ml={2}>
-              {pastDue === true ? 'Past Due by ' : ''}
-              {remainingYears > 0
-                ? `${remainingYears} years, ${remainingMonths} months, ${remainingDays} days`
-                : remainingMonths > 0
-                ? `${remainingMonths} months, ${remainingDays} days`
-                : remainingMonths === 0 && remainingDays > 0
-                ? `${remainingDays} days`
-                : remainingDays === 0
-                ? `Today`
-                : 'Error'}
-            </Text>
           </Flex>
         </Flex>
       </Td>

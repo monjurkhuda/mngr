@@ -21,6 +21,7 @@
 - [x] Fix date display when editing project or task
 - [x] create components for project and task search results
 - [x] implement project images, remove task images
+- [ ] edit task pages don't load current priority. And priority creation and editing needs formatting
 
 ## Alpha: Project Manager with users and roles:
 

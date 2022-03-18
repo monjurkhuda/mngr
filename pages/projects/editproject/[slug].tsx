@@ -5,6 +5,7 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
+  FormLabel,
   Heading,
   Icon,
   Input,
@@ -16,7 +17,9 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { HiOutlineClipboardList } from 'react-icons/hi'
 import { RiCalendarEventLine } from 'react-icons/ri'
+import Navigation from '../../../components/navigation_column/Navigation'
 import NavigationColumn from '../../../components/navigation_column/NavigationColumn'
+import NavigationColumnLogo from '../../../components/navigation_column/NavigationColumnLogo'
 import OverviewRightColumn from '../../../components/overview_right_column/OverviewRightColumn'
 import { prisma } from '../../../prisma/db'
 
@@ -63,13 +66,18 @@ const EditProject = ({ currentUser, project }) => {
       >
         {/* Column 1 */}
         <Flex
-          w={['100%', '100%', '10%', '10%', '10%']}
           flexDir="column"
-          alignItems="center"
+          w={['100%', '100%', '10%', '10%', '10%']}
+          h={['100%', '100%', '30%', '30%', '30%']}
           borderRight="2px"
           borderColor="#eeeeee"
+          alignItems="center"
+          justifyContent="space-between"
+          justifyItems="space-between"
+          alignContent="space-between"
         >
-          <NavigationColumn />
+          <NavigationColumnLogo />
+          <Navigation />
         </Flex>
         {/*Column2*/}
 
@@ -120,11 +128,13 @@ const EditProject = ({ currentUser, project }) => {
                         w={['30vh', '30vh', '50vh', '65vh', '50vh']}
                         isInvalid={form.errors.image && form.touched.image}
                       >
+                        <FormLabel htmlFor="image" mt={2}>
+                          Project Logo
+                        </FormLabel>
                         <Input
                           {...field}
                           id="image"
                           placeholder="Project Logo"
-                          mt={4}
                         />
                         <FormErrorMessage>{form.errors.image}</FormErrorMessage>
                       </FormControl>
@@ -134,14 +144,16 @@ const EditProject = ({ currentUser, project }) => {
                   <Field name="title">
                     {({ field, form }) => (
                       <FormControl
-                        w={['30vh', '30vh', '50vh', '65vh', '50vh']}
                         isInvalid={form.errors.title && form.touched.title}
                       >
+                        <FormLabel htmlFor="image" mt={2}>
+                          Title
+                        </FormLabel>
                         <Input
                           {...field}
                           id="title"
                           placeholder="Title"
-                          mt={4}
+                          type="text"
                         />
                         <FormErrorMessage>{form.errors.title}</FormErrorMessage>
                       </FormControl>
@@ -155,12 +167,14 @@ const EditProject = ({ currentUser, project }) => {
                           form.errors.description && form.touched.description
                         }
                       >
+                        <FormLabel htmlFor="image" mt={2}>
+                          Description
+                        </FormLabel>
                         <Input
                           {...field}
                           id="description"
                           placeholder="Description"
                           type="text"
-                          mt={4}
                         />
                         <FormErrorMessage>
                           {form.errors.description}
@@ -169,10 +183,9 @@ const EditProject = ({ currentUser, project }) => {
                     )}
                   </Field>
 
-                  <Flex alignContent="center" alignItems="center" mt={4}>
-                    <Icon as={RiCalendarEventLine}></Icon>
-                    <Text ml={1}>Due Date:</Text>
-                  </Flex>
+                  <FormLabel htmlFor="dueDate" mt={2}>
+                    Due Date
+                  </FormLabel>
 
                   <Flex
                     backgroundColor="purple.500"

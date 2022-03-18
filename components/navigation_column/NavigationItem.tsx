@@ -16,7 +16,7 @@ function NavigationItem(props: {
           display={['center', 'center', 'center', 'flex-start', 'flex-start']}
         >
           <Icon
-            display={['none', 'none', 'flex', 'flex', 'flex']}
+            display={['flex', 'flex', 'flex', 'flex', 'flex']}
             as={props.icon}
             fontSize="2xl"
             className={props.navClass}
@@ -24,7 +24,7 @@ function NavigationItem(props: {
         </Link>
         <Link
           href={props.link}
-          display={['flex', 'flex', 'none', 'flex', 'flex']}
+          display={['none', 'none', 'none', 'flex', 'flex']}
           _hover={{ textDecor: 'none' }}
         >
           <Text

@@ -29,6 +29,8 @@ import OverviewRightColumn from '../../components/overview_right_column/Overview
 import { RiTaskLine } from 'react-icons/ri'
 import { BsClockFill } from 'react-icons/bs'
 import { HiOutlineClipboardList } from 'react-icons/hi'
+import NavigationColumnLogo from '../../components/navigation_column/NavigationColumnLogo'
+import Navigation from '../../components/navigation_column/Navigation'
 
 const TaskPage = ({ task }) => {
   const [remainingYears, setRemainingYears] = useState(0)
@@ -73,13 +75,18 @@ const TaskPage = ({ task }) => {
       >
         {/* Column 1 */}
         <Flex
-          w={['100%', '100%', '10%', '10%', '10%']}
           flexDir="column"
-          alignItems="center"
+          w={['100%', '100%', '10%', '10%', '10%']}
+          h={['100%', '100%', '30%', '30%', '30%']}
           borderRight="2px"
           borderColor="#eeeeee"
+          alignItems="center"
+          justifyContent="space-between"
+          justifyItems="space-between"
+          alignContent="space-between"
         >
-          <NavigationColumn />
+          <NavigationColumnLogo />
+          <Navigation />
         </Flex>
         {/*Column2*/}
         <Flex
