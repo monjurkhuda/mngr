@@ -1,36 +1,6 @@
+import { Flex, Heading, Icon, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import {
-  Flex,
-  Heading,
-  Avatar,
-  AvatarGroup,
-  Text,
-  Icon,
-  IconButton,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
-  Box,
-  Button,
-  Input,
-  InputGroup,
-  InputLeftElement,
-} from '@chakra-ui/react'
-import {
-  RiSettings5Line,
-  RiEyeLine,
-  RiPencilRuler2Line,
-  RiTaskLine,
-  RiCalendarEventLine,
-  RiFullscreenExitFill,
-} from 'react-icons/ri'
-import { HiOutlineClipboardList } from 'react-icons/hi'
-
-import TaskTable from '../TaskTable'
+import { RiCalendarEventLine, RiFullscreenExitFill } from 'react-icons/ri'
 import ProjectTable from '../ProjectTable'
 
 function OverviewMidColumn() {

@@ -1,36 +1,15 @@
-import { useState, useEffect } from 'react'
-import { intervalToDuration } from 'date-fns'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
+import { Box, Button, Flex, Heading, Icon, Tag, Text } from '@chakra-ui/react'
 import { PrismaClient } from '@prisma/client'
-import NavigationColumn from '../../components/navigation_column/NavigationColumn'
+import { intervalToDuration } from 'date-fns'
 import Link from 'next/link'
-import {
-  CircularProgress,
-  CircularProgressLabel,
-  Progress,
-  Flex,
-  Button,
-  Heading,
-  Avatar,
-  Text,
-  IconButton,
-  Tag,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
-  Box,
-  Icon,
-} from '@chakra-ui/react'
-import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
-import { RiTaskLine } from 'react-icons/ri'
+import { useEffect, useState } from 'react'
 import { BsClockFill } from 'react-icons/bs'
 import { HiOutlineClipboardList } from 'react-icons/hi'
-import NavigationColumnLogo from '../../components/navigation_column/NavigationColumnLogo'
+import { RiTaskLine } from 'react-icons/ri'
 import Navigation from '../../components/navigation_column/Navigation'
+import NavigationColumnLogo from '../../components/navigation_column/NavigationColumnLogo'
+import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
 
 const TaskPage = ({ task }) => {
   const [remainingYears, setRemainingYears] = useState(0)
@@ -173,7 +152,7 @@ const TaskPage = ({ task }) => {
           p="3%"
           flexDir="column"
           overflow="auto"
-          backgroundColor="purple.400"
+          backgroundColor="gray.600"
         >
           <OverviewRightColumn />
         </Flex>

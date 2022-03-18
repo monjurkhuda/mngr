@@ -10,14 +10,12 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { PrismaClient } from '@prisma/client'
+
 import Head from 'next/head'
 import NextLink from 'next/link'
-import { CgArrowTopRightR } from 'react-icons/cg'
 import { HiOutlineClipboardList } from 'react-icons/hi'
 import { RiHistoryLine, RiTaskLine } from 'react-icons/ri'
-import CompletedProjectTableRow from '../components/CompletedProjectTableRow'
 import Navigation from '../components/navigation_column/Navigation'
-import NavigationColumn from '../components/navigation_column/NavigationColumn'
 import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
 import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
 import ProjectTableRow from '../components/ProjectTableRow'
@@ -26,13 +24,9 @@ function Overview({
   currentUser,
   completedTaskTotalPriorityArray,
   uncompletedTaskTotalPriorityArray,
-  completeProjects,
 }) {
   var incompleteProjects = currentUser.Projects.filter(function (project) {
     return project.completed === false
-  })
-  var completeProjects = currentUser.Projects.filter(function (project) {
-    return project.completed === true
   })
 
   return (
@@ -127,18 +121,11 @@ function Overview({
           </Table>
 
           <Flex
-            flexDir="row"
+            flexDir="column"
             justifyContent="center"
             alignItems="center"
             color="gray.500"
           >
-            <Link href="/history">
-              <Button mt={2} backgroundColor="gray.200">
-                History
-                <Icon as={RiHistoryLine} ml={2} />
-              </Button>
-            </Link>
-
             {currentUser.Tasks.length > 0 ? (
               <></>
             ) : (
@@ -152,6 +139,13 @@ function Overview({
                 No Projects Found . . . .
               </Flex>
             )}
+
+            <Link href="/history">
+              <Button mt={2} backgroundColor="gray.200">
+                History
+                <Icon as={RiHistoryLine} ml={2} />
+              </Button>
+            </Link>
           </Flex>
         </Flex>
         {/* Column 3 */}
@@ -161,74 +155,9 @@ function Overview({
           p="3%"
           flexDir="column"
           overflow="auto"
-          backgroundColor="purple.400"
+          backgroundColor="gray.600"
         >
           <OverviewRightColumn />
-
-          <Flex justifyContent="space-between" mt={8}>
-            <Flex align="flex-end">
-              <HiOutlineClipboardList size={40} color="white" />
-              <Heading as="h2" size="xl" color="white">
-                Completed Projects
-              </Heading>
-            </Flex>
-          </Flex>
-
-          <Table mt={4} borderBottom="4px" borderColor="#e3e3e3">
-            <Tbody>
-              {completeProjects
-                .slice(0, 4)
-                .map(
-                  (
-                    {
-                      id,
-                      image,
-                      title,
-                      description,
-                      slug,
-                      completedAt,
-                      createdAt,
-                    },
-                    index
-                  ) => (
-                    <CompletedProjectTableRow
-                      key={id}
-                      id={id}
-                      title={title}
-                      image={image}
-                      description={description}
-                      completedAt={completedAt}
-                      createdAt={createdAt}
-                    />
-                  )
-                )}
-            </Tbody>
-          </Table>
-
-          <Flex
-            flexDir="row"
-            justifyContent="center"
-            alignItems="center"
-            color="gray.500"
-          >
-            {completeProjects.length > 0 ? (
-              <Button mt={2} colorScheme="yellow" boxShadow="base">
-                History
-                <Icon as={CgArrowTopRightR} ml={2} />
-              </Button>
-            ) : (
-              <Flex
-                backgroundColor="purple.500"
-                w="100%"
-                color="white"
-                borderRadius={10}
-                padding={2}
-                mt={4}
-              >
-                0 Completed Projects Found . . . .
-              </Flex>
-            )}
-          </Flex>
         </Flex>
       </Flex>
     </>
@@ -305,17 +234,11 @@ export const getServerSideProps = withPageAuthRequired({
       uncompletedTaskTotalPriorityArray.push(tasks_uncompleted_sum)
     }
 
-    //Getting completed Projects
-    const completeProjects = await prisma.project.findMany({
-      where: { ownerId: currentUser?.id, completed: true },
-    })
-
     await prisma.$disconnect()
 
     return {
       props: {
         currentUser: JSON.parse(JSON.stringify(currentUser)),
-        completeProjects: JSON.parse(JSON.stringify(completeProjects)),
         completedTaskTotalPriorityArray: completedTaskTotalPriorityArray,
         uncompletedTaskTotalPriorityArray: uncompletedTaskTotalPriorityArray,
       },

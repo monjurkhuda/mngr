@@ -1,31 +1,7 @@
-import React, { useState } from 'react'
-import { format, formatDistance, formatRelative, subDays } from 'date-fns'
-import {
-  Flex,
-  Heading,
-  Avatar,
-  AvatarGroup,
-  Text,
-  Icon,
-  IconButton,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
-  Link,
-  Box,
-  Button,
-  Input,
-  InputGroup,
-  InputLeftElement,
-} from '@chakra-ui/react'
+import { Avatar, Button, Flex, Heading, Link, Text } from '@chakra-ui/react'
+import { format } from 'date-fns'
+import React from 'react'
 import { RiCalendarEventLine } from 'react-icons/ri'
-import { FiChevronUp, FiChevronDown, FiSearch, FiBell } from 'react-icons/fi'
-import { IoIosExit, IoMdExit } from 'react-icons/io'
-import TaskTable from '../TaskTable'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../redux/store'
 

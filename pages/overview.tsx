@@ -1,13 +1,9 @@
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import {
   Button,
-  Divider,
   Flex,
   Heading,
   Icon,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Link,
   Table,
   Tbody,
@@ -16,35 +12,17 @@ import {
 import { PrismaClient } from '@prisma/client'
 import Head from 'next/head'
 import NextLink from 'next/link'
-import { useState } from 'react'
-import { CgArrowTopRightR } from 'react-icons/cg'
 import { HiOutlineClipboardList } from 'react-icons/hi'
 import { RiHistoryLine, RiTaskLine } from 'react-icons/ri'
 import { useDispatch } from 'react-redux'
 import Navigation from '../components/navigation_column/Navigation'
-import NavigationColumn from '../components/navigation_column/NavigationColumn'
 import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
 import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
-import ProjectTableRow from '../components/ProjectTableRow'
-import ProjectSearchResult from '../components/search_result/ProjectSearchResult'
-import TaskSearchResult from '../components/search_result/TaskSearchResult'
 import TaskTableRow from '../components/TaskTableRow'
-import UserProfile from '../components/UserProfile'
 import { addUserInfo } from '../redux/userSlice'
 
-function Overview({
-  currentUser,
-  completedTaskTotalPriorityArray,
-  uncompletedTaskTotalPriorityArray,
-  taskSearchResult,
-  projectSearchResult,
-}) {
-  const [searchTerm, setSearchTerm] = useState()
+function Overview({ currentUser }) {
   const dispatch = useDispatch()
-
-  var incompleteProjects = currentUser.Projects.filter(function (project) {
-    return project.completed === false
-  })
 
   dispatch(
     addUserInfo({
@@ -153,18 +131,11 @@ function Overview({
           </Table>
 
           <Flex
-            flexDir="row"
+            flexDir="column"
             justifyContent="center"
             alignItems="center"
             color="gray.500"
           >
-            <Link href="/history">
-              <Button mt={2} backgroundColor="gray.200">
-                History
-                <Icon as={RiHistoryLine} ml={2} />
-              </Button>
-            </Link>
-
             {currentUser.Tasks.length > 0 ? (
               <></>
             ) : (
@@ -178,6 +149,13 @@ function Overview({
                 No Tasks Found . . . .
               </Flex>
             )}
+
+            <Link href="/history">
+              <Button mt={2} backgroundColor="gray.200">
+                History
+                <Icon as={RiHistoryLine} ml={2} />
+              </Button>
+            </Link>
           </Flex>
         </Flex>
 
@@ -188,7 +166,7 @@ function Overview({
           p="3%"
           flexDir="column"
           overflow="auto"
-          backgroundColor="purple.400"
+          backgroundColor="gray.600"
         >
           <OverviewRightColumn />
         </Flex>
@@ -223,84 +201,11 @@ export const getServerSideProps = withPageAuthRequired({
       },
     })
 
-    //Getting the sum of completed task fibonacci
-    const completedTasksInProjects = await prisma.project.findMany({
-      where: { ownerId: currentUser?.id, completed: false },
-      include: {
-        Tasks: {
-          where: {
-            completed: true,
-          },
-        },
-      },
-    })
-
-    const completedTaskTotalPriorityArray = []
-
-    for (let project of completedTasksInProjects) {
-      let tasks_completed_sum = 0
-      for (let task of project.Tasks) {
-        tasks_completed_sum += task.priority
-      }
-      completedTaskTotalPriorityArray.push(tasks_completed_sum)
-    }
-
-    //Getting the sum of uncompleted task fibonacci
-    const uncompletedTasksInProjects = await prisma.project.findMany({
-      where: { ownerId: currentUser?.id, completed: false },
-      include: {
-        Tasks: {
-          where: {
-            completed: false,
-          },
-        },
-      },
-    })
-
-    const uncompletedTaskTotalPriorityArray = []
-
-    for (let project of uncompletedTasksInProjects) {
-      let tasks_uncompleted_sum = 0
-      for (let task of project.Tasks) {
-        tasks_uncompleted_sum += task.priority
-      }
-      uncompletedTaskTotalPriorityArray.push(tasks_uncompleted_sum)
-    }
-
-    const searchTerm = query.searchterm
-    var taskSearchResult = ''
-    var projectSearchResult = ''
-
-    if (searchTerm?.length > 0) {
-      taskSearchResult = await prisma.task.findMany({
-        where: {
-          title: {
-            search: searchTerm,
-          },
-        },
-        include: {
-          Project: true,
-        },
-      })
-
-      projectSearchResult = await prisma.project.findMany({
-        where: {
-          title: {
-            search: searchTerm,
-          },
-        },
-      })
-    }
-
     await prisma.$disconnect()
 
     return {
       props: {
         currentUser: JSON.parse(JSON.stringify(currentUser)),
-        completedTaskTotalPriorityArray: completedTaskTotalPriorityArray,
-        uncompletedTaskTotalPriorityArray: uncompletedTaskTotalPriorityArray,
-        taskSearchResult: JSON.parse(JSON.stringify(taskSearchResult)),
-        projectSearchResult: JSON.parse(JSON.stringify(projectSearchResult)),
       },
     }
   },

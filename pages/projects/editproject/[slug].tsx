@@ -218,7 +218,7 @@ const EditProject = ({ currentUser, project }) => {
           p="3%"
           flexDir="column"
           overflow="auto"
-          backgroundColor="purple.400"
+          backgroundColor="gray.600"
         >
           <OverviewRightColumn />
         </Flex>

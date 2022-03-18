@@ -1,38 +1,23 @@
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import {
   Avatar,
-  Button,
-  Divider,
   Flex,
   Heading,
-  Icon,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Link,
   Table,
   Tbody,
   Td,
-  Tr,
   Text,
+  Tr,
 } from '@chakra-ui/react'
 import { PrismaClient } from '@prisma/client'
+import { GraphQLClient } from 'graphql-request'
 import Head from 'next/head'
-import NextLink from 'next/link'
-import { CgArrowTopRightR } from 'react-icons/cg'
-import { GiEgyptianProfile } from 'react-icons/gi'
-import { HiOutlineClipboardList } from 'react-icons/hi'
-import NavigationColumn from '../components/navigation_column/NavigationColumn'
-import ProjectTableRow from '../components/ProjectTableRow'
-import ProjectSearchResult from '../components/search_result/ProjectSearchResult'
-import TaskSearchResult from '../components/search_result/TaskSearchResult'
-import TaskTableRow from '../components/TaskTableRow'
-
-import { request, GraphQLClient } from 'graphql-request'
-import { GET_ALL_USERS } from './api/graphql/queries'
-import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
+import { GrFormEdit } from 'react-icons/gr'
 import Navigation from '../components/navigation_column/Navigation'
-import { FiUser } from 'react-icons/fi'
+import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
+import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
+import { GET_ALL_USERS } from './api/graphql/queries'
 
 function Users({ currentUser, allUsers }) {
   console.log(allUsers)
@@ -75,38 +60,36 @@ function Users({ currentUser, allUsers }) {
         >
           <Flex
             direction="column"
+            alignItems="center"
             display={['flex', 'flex', 'none', 'none', 'none']}
-            mb={4}
+            w="100%"
+            p={2}
           >
-            <Flex
-              backgroundColor="white"
-              w="100%"
-              h="fit-content"
-              p={4}
-              borderRadius={10}
-              boxShadow="base"
-              direction="column"
-            >
+            <Text size="sm" fontWeight="600" color="gray.500">
+              My Profile:
+            </Text>
+            <Flex mt={2}>
               <Flex>
-                <Heading size="md">My Profile:</Heading>
+                <Avatar src={currentUser.image} size="lg" mt={2}></Avatar>
               </Flex>
-              <Flex mt={4}>
-                <Avatar src={currentUser.image} size="lg"></Avatar>
-                <Flex direction="column" ml={4}>
-                  <Text fontSize="lg" fontWeight="700" color="blackAlpha.700">
-                    {currentUser.username}
-                  </Text>
-                  <Text fontSize="md" color="blackAlpha.800" mt={1}>
-                    {currentUser.email}
-                  </Text>
+              <Link href="/editprofile">
+                <Flex
+                  backgroundColor="white"
+                  p={1}
+                  borderRadius={20}
+                  boxShadow="base"
+                  ml={-3}
+                >
+                  <GrFormEdit size={30} color="white" />
                 </Flex>
-              </Flex>
-              <Flex mt={2} justifyContent="flex-end">
-                <Link href="/editprofile">
-                  <Button colorScheme="yellow">Edit Profile</Button>
-                </Link>
-              </Flex>
+              </Link>
             </Flex>
+            <Text fontSize="md" fontWeight="700" color="gray.700" mt={1}>
+              {currentUser.username}
+            </Text>
+            <Text fontSize="sm" color="blackAlpha.800">
+              {currentUser.email}
+            </Text>
           </Flex>
 
           <Flex mt={2}>
@@ -146,8 +129,10 @@ function Users({ currentUser, allUsers }) {
           p="3%"
           flexDir="column"
           overflow="auto"
-          backgroundColor="purple.400"
-        ></Flex>
+          backgroundColor="gray.600"
+        >
+          <OverviewRightColumn />
+        </Flex>
       </Flex>
     </>
   )

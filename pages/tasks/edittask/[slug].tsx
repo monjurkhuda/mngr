@@ -1,48 +1,23 @@
-import React, { useState } from 'react'
-import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik'
-import NavigationColumn from '../../../components/navigation_column/NavigationColumn'
-import { prisma } from '../../../prisma/db'
-import { withPageAuthRequired, useUser, getSession } from '@auth0/nextjs-auth0'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
+import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import {
-  format,
-  formatDistance,
-  formatRelative,
-  subDays,
-  parse,
-} from 'date-fns'
-import OverviewRightColumn from '../../../components/overview_right_column/OverviewRightColumn'
-import {
-  CircularProgress,
-  CircularProgressLabel,
-  Progress,
-  Flex,
   Button,
-  Heading,
-  Avatar,
-  Text,
-  IconButton,
+  Flex,
   FormControl,
-  FormLabel,
   FormErrorMessage,
-  Tag,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
-  Box,
+  FormLabel,
+  Heading,
   Input,
-  Icon,
   Select,
 } from '@chakra-ui/react'
+import { Field, Form, Formik, useFormikContext } from 'formik'
+import React, { useState } from 'react'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import { HiOutlineClipboardList } from 'react-icons/hi'
-import { RiCalendarEventLine } from 'react-icons/ri'
-import NavigationColumnLogo from '../../../components/navigation_column/NavigationColumnLogo'
 import Navigation from '../../../components/navigation_column/Navigation'
+import NavigationColumnLogo from '../../../components/navigation_column/NavigationColumnLogo'
+import OverviewRightColumn from '../../../components/overview_right_column/OverviewRightColumn'
+import { prisma } from '../../../prisma/db'
 
 async function editTask(task) {
   const response = await fetch('/api/edittask', {
@@ -300,7 +275,7 @@ const EditTask = ({ currentUser, task, projects }) => {
           p="3%"
           flexDir="column"
           overflow="auto"
-          backgroundColor="purple.400"
+          backgroundColor="gray.600"
         >
           <OverviewRightColumn />
         </Flex>

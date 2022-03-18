@@ -13,7 +13,10 @@ import { Field, Form, Formik } from 'formik'
 import React, { useState } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import { HiOutlineClipboardList } from 'react-icons/hi'
+import Navigation from '../components/navigation_column/Navigation'
 import NavigationColumn from '../components/navigation_column/NavigationColumn'
+import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
+import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
 import { prisma } from '../prisma/db'
 
 async function editProfile(profile) {
@@ -41,13 +44,18 @@ const ProjectPage = ({ currentUser }) => {
       >
         {/* Column 1 */}
         <Flex
-          w={['100%', '100%', '10%', '10%', '10%']}
           flexDir="column"
-          alignItems="center"
+          w={['100%', '100%', '10%', '10%', '10%']}
+          h={['100%', '100%', '30%', '30%', '30%']}
           borderRight="2px"
           borderColor="#eeeeee"
+          alignItems="center"
+          justifyContent="space-between"
+          justifyItems="space-between"
+          alignContent="space-between"
         >
-          <NavigationColumn />
+          <NavigationColumnLogo />
+          <Navigation />
         </Flex>
         {/*Column2*/}
         <Flex
@@ -95,15 +103,13 @@ const ProjectPage = ({ currentUser }) => {
                         w={['30vh', '30vh', '50vh', '65vh', '50vh']}
                         isInvalid={form.errors.image && form.touched.image}
                       >
-                        <FormLabel htmlFor="image">Profile Image URL</FormLabel>
+                        <FormLabel htmlFor="image" mt={2}>
+                          Profile Image URL
+                        </FormLabel>
                         <Input
                           {...field}
                           id="image"
                           placeholder="Profile Image URL"
-                          width="100%"
-                          //   onChange={(e) => {
-                          //     setImageUrl(e.target.value)
-                          //   }}
                         />
                         <FormErrorMessage>{form.errors.image}</FormErrorMessage>
                       </FormControl>
@@ -113,12 +119,13 @@ const ProjectPage = ({ currentUser }) => {
                   <Field name="username">
                     {({ field, form }) => (
                       <FormControl
-                        w={['30vh', '30vh', '50vh', '65vh', '50vh']}
                         isInvalid={
                           form.errors.username && form.touched.username
                         }
                       >
-                        <FormLabel htmlFor="createtask">Username</FormLabel>
+                        <FormLabel htmlFor="createtask" mt={2}>
+                          Username
+                        </FormLabel>
                         <Input
                           {...field}
                           id="username"
@@ -137,7 +144,9 @@ const ProjectPage = ({ currentUser }) => {
                       <FormControl
                         isInvalid={form.errors.email && form.touched.email}
                       >
-                        <FormLabel htmlFor="email">Email</FormLabel>
+                        <FormLabel htmlFor="email" mt={2}>
+                          Email
+                        </FormLabel>
                         <Input
                           {...field}
                           id="email"
@@ -164,6 +173,17 @@ const ProjectPage = ({ currentUser }) => {
               )}
             </Formik>
           </Flex>
+        </Flex>
+        {/* Column 3 */}
+        <Flex
+          display={['none', 'none', 'none', 'none', 'inline']}
+          w={['100%', '100%', null, null, '35%']}
+          p="3%"
+          flexDir="column"
+          overflow="auto"
+          backgroundColor="gray.600"
+        >
+          <OverviewRightColumn />
         </Flex>
       </Flex>
     </>

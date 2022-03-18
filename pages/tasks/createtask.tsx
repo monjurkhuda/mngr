@@ -36,6 +36,7 @@ import {
   FormHelperText,
   Input,
   Checkbox,
+  Select,
 } from '@chakra-ui/react'
 import {
   RiSettings5Line,
@@ -46,6 +47,8 @@ import {
   RiFullscreenExitFill,
 } from 'react-icons/ri'
 import NavigationColumn from '../../components/navigation_column/NavigationColumn'
+import NavigationColumnLogo from '../../components/navigation_column/NavigationColumnLogo'
+import Navigation from '../../components/navigation_column/Navigation'
 
 async function createTaskApi(task) {
   const response = await fetch('/api/createtask', {
@@ -88,13 +91,18 @@ function createtask({ users, projects, currentUser }) {
       >
         {/* Column 1 */}
         <Flex
-          w={['100%', '100%', '10%', '10%', '10%']}
           flexDir="column"
-          alignItems="center"
+          w={['100%', '100%', '10%', '10%', '10%']}
+          h={['100%', '100%', '30%', '30%', '30%']}
           borderRight="2px"
           borderColor="#eeeeee"
+          alignItems="center"
+          justifyContent="space-between"
+          justifyItems="space-between"
+          alignContent="space-between"
         >
-          <NavigationColumn />
+          <NavigationColumnLogo />
+          <Navigation />
         </Flex>
         {/* Column 2 */}
         <Flex
@@ -144,9 +152,7 @@ function createtask({ users, projects, currentUser }) {
                           form.errors.projectId && form.touched.projectId
                         }
                       >
-                        <FormLabel htmlFor="projectId">Project</FormLabel>
-
-                        <select
+                        <Select
                           {...field}
                           id="projectId"
                           defaultValue="Choose_Project"
@@ -163,7 +169,7 @@ function createtask({ users, projects, currentUser }) {
                               label={project.title}
                             />
                           ))}
-                        </select>
+                        </Select>
 
                         <FormErrorMessage>
                           {form.errors.projectId}
@@ -177,12 +183,11 @@ function createtask({ users, projects, currentUser }) {
                         w={['30vh', '30vh', '50vh', '65vh', '50vh']}
                         isInvalid={form.errors.title && form.touched.title}
                       >
-                        <FormLabel htmlFor="createtask">Title</FormLabel>
                         <Input
                           {...field}
                           id="title"
                           placeholder="Title"
-                          width="100%"
+                          mt={4}
                         />
                         <FormErrorMessage>{form.errors.title}</FormErrorMessage>
                       </FormControl>
@@ -238,12 +243,12 @@ function createtask({ users, projects, currentUser }) {
                           form.errors.description && form.touched.description
                         }
                       >
-                        <FormLabel htmlFor="description">Description</FormLabel>
                         <Input
                           {...field}
                           id="description"
                           placeholder="Description"
                           type="text"
+                          mt={4}
                         />
                         <FormErrorMessage>
                           {form.errors.description}
@@ -258,7 +263,9 @@ function createtask({ users, projects, currentUser }) {
                           form.errors.priority && form.touched.priority
                         }
                       >
-                        <FormLabel htmlFor="priority">Priority</FormLabel>
+                        <FormLabel htmlFor="priority" mt={2}>
+                          Priority
+                        </FormLabel>
                         <div role="group" aria-labelledby="my-radio-group">
                           <label>
                             <Field type="radio" name="priority" value="1" />1
@@ -294,21 +301,11 @@ function createtask({ users, projects, currentUser }) {
                       </FormControl>
                     )}
                   </Field>
-                  {/* <Field name="dueDate">
-                    {({ field, form }) => (
-                      <FormControl
-                        isInvalid={form.errors.dueDate && form.touched.dueDate}
-                      >
-                        <FormLabel htmlFor="dueDate">Due Date</FormLabel>
-                        <Input {...field} id="dueDate" placeholder="Due Date" />
-                        <FormErrorMessage>
-                          {form.errors.dueDate}
-                        </FormErrorMessage>
-                      </FormControl>
-                    )}
-                  </Field> */}
-                  <Icon as={RiCalendarEventLine} ml={6} mb={1}></Icon>
-                  {' Due Date: '}
+
+                  <FormLabel htmlFor="dueDate" mt={2}>
+                    Due Date
+                  </FormLabel>
+
                   <Flex
                     backgroundColor="#e6e6e6"
                     mt={2}
@@ -338,7 +335,7 @@ function createtask({ users, projects, currentUser }) {
           p="3%"
           flexDir="column"
           overflow="auto"
-          backgroundColor="purple.400"
+          backgroundColor="gray.600"
         >
           <OverviewRightColumn />
         </Flex>

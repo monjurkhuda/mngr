@@ -1,37 +1,23 @@
-import React, { useState } from 'react'
-import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik'
-import { RootState } from '../../redux/store'
-import { useSelector, useDispatch } from 'react-redux'
-import { prisma } from '../../prisma/db'
-import { withPageAuthRequired, useUser, getSession } from '@auth0/nextjs-auth0'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
-
+import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import {
-  Flex,
-  Heading,
   Avatar,
-  Text,
-  IconButton,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
   Button,
-  Icon,
+  Flex,
   FormControl,
-  FormLabel,
   FormErrorMessage,
-  FormHelperText,
+  FormLabel,
+  Heading,
   Input,
 } from '@chakra-ui/react'
-import NavigationColumn from '../../components/navigation_column/NavigationColumn'
+import { Field, Form, Formik, useFormikContext } from 'formik'
+import React, { useState } from 'react'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import { HiOutlineClipboardList } from 'react-icons/hi'
-import { RiCalendarEventLine } from 'react-icons/ri'
+import Navigation from '../../components/navigation_column/Navigation'
+import NavigationColumnLogo from '../../components/navigation_column/NavigationColumnLogo'
+import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
+import { prisma } from '../../prisma/db'
 
 async function createProject(project) {
   const response = await fetch('/api/createproject', {
@@ -75,13 +61,18 @@ function createproject({ currentUser }) {
       >
         {/* Column 1 */}
         <Flex
-          w={['100%', '100%', '10%', '10%', '10%']}
           flexDir="column"
-          alignItems="center"
+          w={['100%', '100%', '10%', '10%', '10%']}
+          h={['100%', '100%', '30%', '30%', '30%']}
           borderRight="2px"
           borderColor="#eeeeee"
+          alignItems="center"
+          justifyContent="space-between"
+          justifyItems="space-between"
+          alignContent="space-between"
         >
-          <NavigationColumn />
+          <NavigationColumnLogo />
+          <Navigation />
         </Flex>
         {/* Column 2 */}
         <Flex
@@ -147,7 +138,6 @@ function createproject({ currentUser }) {
                   <Field name="title">
                     {({ field, form }) => (
                       <FormControl
-                        w={['30vh', '30vh', '50vh', '65vh', '50vh']}
                         isInvalid={form.errors.title && form.touched.title}
                       >
                         <Input
@@ -182,13 +172,12 @@ function createproject({ currentUser }) {
                     )}
                   </Field>
 
-                  <Flex alignContent="center" alignItems="center" mt={4}>
-                    <Icon as={RiCalendarEventLine}></Icon>
-                    <Text ml={1}>Due Date:</Text>
-                  </Flex>
+                  <FormLabel htmlFor="dueDate" mt={2}>
+                    Due Date
+                  </FormLabel>
 
                   <Flex
-                    backgroundColor="purple.500"
+                    backgroundColor="#e6e6e6"
                     mt={1}
                     padding="0.2em"
                     w="fit-content"
@@ -216,7 +205,7 @@ function createproject({ currentUser }) {
           p="3%"
           flexDir="column"
           overflow="auto"
-          backgroundColor="purple.400"
+          backgroundColor="gray.600"
         >
           <OverviewRightColumn />
         </Flex>

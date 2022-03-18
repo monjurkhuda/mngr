@@ -1,35 +1,30 @@
-import { Flex } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
+import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import { FiUser } from 'react-icons/fi'
-import { GiEgyptianProfile } from 'react-icons/gi'
 import { IoMdExit } from 'react-icons/io'
-import { RiEyeLine, RiHistoryLine } from 'react-icons/ri'
+import { RiCalendarEventLine, RiHistoryLine } from 'react-icons/ri'
+import { GoSearch } from 'react-icons/go'
 import NavigationItem from './NavigationItem'
 
 function Navigation() {
   const [queryString, setQueryString] = useState('')
-  var overviewActive = ''
-  var tasksActive = ''
-  var projectsActive = ''
+  const today = format(new Date(), 'MMM d, yyyy')
+
   var historyActive = ''
   var usersActive = ''
+  var searchActive = ''
 
   useEffect(() => {
     setQueryString(window.location.pathname)
   }, [queryString])
 
-  //const queryString = window.location.pathname
-
-  if (queryString === '/overview') {
-    overviewActive = 'active'
-  } else if (queryString === '/tasks') {
-    tasksActive = 'active'
-  } else if (queryString === '/projects') {
-    projectsActive = 'active'
-  } else if (queryString === '/history') {
+  if (queryString === '/history') {
     historyActive = 'active'
   } else if (queryString === '/users') {
     usersActive = 'active'
+  } else if (queryString === '/search') {
+    searchActive = 'active'
   }
 
   return (
@@ -41,11 +36,24 @@ function Navigation() {
         align={['center', 'center', 'center', 'flex-start', 'flex-start']}
         justifyContent="center"
       >
+        <Flex
+          flexDir="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          color="gray.500"
+          display={['flex', 'flex', 'none', 'none', 'none']}
+        >
+          <RiCalendarEventLine size={24} />
+          <Text fontWeight="500" ml={2}>
+            {today}
+          </Text>
+        </Flex>
+
         <NavigationItem
-          navClass={overviewActive}
-          icon={RiEyeLine}
-          text={'Overview'}
-          link={'/overview'}
+          navClass={searchActive}
+          icon={GoSearch}
+          text={'Search'}
+          link={'/search'}
         />
 
         <NavigationItem
