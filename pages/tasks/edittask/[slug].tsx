@@ -1,4 +1,4 @@
-import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
+import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import {
   Button,
   Flex,
@@ -32,19 +32,17 @@ async function editTask(task) {
   return await response.json()
 }
 
-const EditTask = ({ currentUser, task, projects }) => {
+const EditTask = ({ task, projects }) => {
   const parsedDate = Date.parse(task.dueDate)
 
   const [dueDate, setDueDate] = useState(new Date(parsedDate))
 
   function DatePickerField({ name }) {
     const formik = useFormikContext()
-    const field = formik.getFieldProps(name)
 
     return (
       <DatePicker
         selected={dueDate}
-        //value={field.value}
         onChange={(date) => {
           setDueDate(date)
           formik.setFieldValue(name, date)
@@ -285,15 +283,7 @@ const EditTask = ({ currentUser, task, projects }) => {
 }
 
 export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps({ req, res, params }) {
-    const {
-      user: { email },
-    } = await getSession(req, res)
-
-    const currentUser = await prisma.user.findUnique({
-      where: { email: email },
-    })
-
+  async getServerSideProps({ params }) {
     const slugString = params.slug.toString()
 
     const task = await prisma.task.findUnique({
@@ -315,7 +305,6 @@ export const getServerSideProps = withPageAuthRequired({
 
     return {
       props: {
-        currentUser: JSON.parse(JSON.stringify(currentUser)),
         task: JSON.parse(JSON.stringify(task)),
         projects: JSON.parse(JSON.stringify(projectsFetch)),
       },

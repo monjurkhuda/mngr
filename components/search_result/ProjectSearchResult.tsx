@@ -1,7 +1,6 @@
-import { Avatar, Box, Flex, Td, Text, Tr } from '@chakra-ui/react'
+import { Avatar, Flex, Td, Text, Tr } from '@chakra-ui/react'
 import Link from 'next/link'
 import React from 'react'
-import { HiOutlineClipboardList } from 'react-icons/hi'
 
 function ProjectSearchResult(props) {
   const { id, image, title, description } = props

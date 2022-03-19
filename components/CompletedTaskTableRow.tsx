@@ -1,31 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { format } from 'date-fns'
 import {
-  CircularProgress,
-  Flex,
-  Heading,
-  Avatar,
-  Text,
-  IconButton,
-  Tag,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
   Box,
-  Icon,
-  Tooltip,
   Button,
+  Flex,
+  Icon,
+  Td,
+  Text,
+  Tooltip,
+  Tr,
 } from '@chakra-ui/react'
-import {
-  HiOutlineClipboardList,
-  HiOutlineQuestionMarkCircle,
-} from 'react-icons/hi'
-import { BsQuestionSquare, BsClock, BsClockFill } from 'react-icons/bs'
+import { format } from 'date-fns'
+import Link from 'next/link'
+import React from 'react'
+import { BsQuestionSquare } from 'react-icons/bs'
+import { HiOutlineClipboardList } from 'react-icons/hi'
 
 async function uncompleteTaskApi(task) {
   const response = await fetch('/api/uncompletetask', {
@@ -41,10 +28,6 @@ async function uncompleteTaskApi(task) {
 }
 
 function CompletedTaskTableRow(props) {
-  const [remainingYears, setRemainingYears] = useState(0)
-  const [remainingMonths, setRemainingMonths] = useState(0)
-  const [remainingDays, setRemainingDays] = useState(0)
-
   const { id, title, priority, description, projectTitle, completedAt, slug } =
     props
 

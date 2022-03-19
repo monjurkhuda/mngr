@@ -36,11 +36,9 @@ const EditProject = ({ currentUser, project }) => {
   const parsedDate = Date.parse(project.dueDate)
 
   const [dueDate, setDueDate] = useState(new Date(parsedDate))
-  const [projectImage, setProjectImage] = useState()
 
   function DatePickerField({ name }) {
     const formik = useFormikContext()
-    const field = formik.getFieldProps(name)
 
     return (
       <DatePicker

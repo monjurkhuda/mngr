@@ -1,5 +1,5 @@
+import { Flex, Heading, Link } from '@chakra-ui/react'
 import React from 'react'
-import { Flex, Text, Heading, Link } from '@chakra-ui/react'
 
 function NavigationColumnLogo() {
   return (

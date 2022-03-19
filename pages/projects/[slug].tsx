@@ -15,12 +15,9 @@ import { intervalToDuration } from 'date-fns'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { BsClockFill } from 'react-icons/bs'
-import { CgArrowTopRightR } from 'react-icons/cg'
 import { HiOutlineClipboardList } from 'react-icons/hi'
-import { RiTaskLine } from 'react-icons/ri'
 import CompletedTaskTableRow from '../../components/CompletedTaskTableRow'
 import Navigation from '../../components/navigation_column/Navigation'
-import NavigationColumn from '../../components/navigation_column/NavigationColumn'
 import NavigationColumnLogo from '../../components/navigation_column/NavigationColumnLogo'
 import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
 import TaskTableRow from '../../components/TaskTableRow'
@@ -230,9 +227,11 @@ export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps({ params }) {
     const prisma = new PrismaClient()
 
+    const slugString = params.slug.toString()
+
     const project = await prisma.project.findUnique({
       where: {
-        id: params.slug,
+        id: slugString,
       },
       include: {
         Tasks: true,

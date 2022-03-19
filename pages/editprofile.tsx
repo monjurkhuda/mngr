@@ -10,7 +10,7 @@ import {
   Input,
 } from '@chakra-ui/react'
 import { Field, Form, Formik } from 'formik'
-import React, { useState } from 'react'
+import React from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import { HiOutlineClipboardList } from 'react-icons/hi'
 import Navigation from '../components/navigation_column/Navigation'
@@ -32,8 +32,6 @@ async function editProfile(profile) {
 }
 
 const ProjectPage = ({ currentUser }) => {
-  const [imageUrl, setImageUrl] = useState('')
-
   return (
     <>
       <Flex
@@ -87,9 +85,8 @@ const ProjectPage = ({ currentUser }) => {
                 username: currentUser.username,
                 email: currentUser.email,
               }}
-              onSubmit={async (values, actions) => {
+              onSubmit={async (values) => {
                 await editProfile(values)
-                await alert(JSON.stringify(values))
               }}
             >
               {(props) => (

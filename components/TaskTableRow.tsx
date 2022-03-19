@@ -1,31 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { intervalToDuration } from 'date-fns'
 import {
-  CircularProgress,
-  Flex,
-  Heading,
-  Avatar,
-  Text,
-  IconButton,
-  Tag,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
   Box,
-  Icon,
-  Tooltip,
   Button,
+  Flex,
+  Icon,
+  Td,
+  Text,
+  Tooltip,
+  Tr,
 } from '@chakra-ui/react'
-import {
-  HiOutlineClipboardList,
-  HiOutlineQuestionMarkCircle,
-} from 'react-icons/hi'
-import { BsQuestionSquare, BsClock, BsClockFill } from 'react-icons/bs'
+import { intervalToDuration } from 'date-fns'
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
+import { BsClockFill, BsQuestionSquare } from 'react-icons/bs'
+import { HiOutlineClipboardList } from 'react-icons/hi'
 import { MdOutlineDone } from 'react-icons/md'
 
 async function completeTaskApi(task) {
