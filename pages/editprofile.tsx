@@ -190,10 +190,10 @@ const ProjectPage = ({ currentUser }) => {
 }
 
 export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps({ req, params }) {
+  async getServerSideProps({ req, res }) {
     const {
       user: { email },
-    } = await getSession(req)
+    } = await getSession(req, res)
 
     const currentUser = await prisma.user.findUnique({
       where: { email: email },

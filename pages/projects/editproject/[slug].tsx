@@ -7,18 +7,14 @@ import {
   FormErrorMessage,
   FormLabel,
   Heading,
-  Icon,
   Input,
-  Text,
 } from '@chakra-ui/react'
 import { Field, Form, Formik, useFormikContext } from 'formik'
 import React, { useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { HiOutlineClipboardList } from 'react-icons/hi'
-import { RiCalendarEventLine } from 'react-icons/ri'
 import Navigation from '../../../components/navigation_column/Navigation'
-import NavigationColumn from '../../../components/navigation_column/NavigationColumn'
 import NavigationColumnLogo from '../../../components/navigation_column/NavigationColumnLogo'
 import OverviewRightColumn from '../../../components/overview_right_column/OverviewRightColumn'
 import { prisma } from '../../../prisma/db'
@@ -228,18 +224,20 @@ const EditProject = ({ currentUser, project }) => {
 }
 
 export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps({ req, params }) {
+  async getServerSideProps({ req, res, params }) {
     const {
       user: { email },
-    } = await getSession(req)
+    } = await getSession(req, res)
 
     const currentUser = await prisma.user.findUnique({
       where: { email: email },
     })
 
+    const slugString = params.slug.toString()
+
     const project = await prisma.project.findUnique({
       where: {
-        id: params.slug,
+        id: slugString,
       },
     })
 

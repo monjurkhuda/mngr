@@ -122,10 +122,10 @@ function History({ currentUser }) {
 }
 
 export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps({ req, query }) {
+  async getServerSideProps({ req, res }) {
     const {
       user: { email },
-    } = await getSession(req)
+    } = await getSession(req, res)
 
     const prisma = new PrismaClient()
 

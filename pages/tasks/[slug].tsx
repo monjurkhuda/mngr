@@ -165,9 +165,11 @@ export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps({ params }) {
     const prisma = new PrismaClient()
 
+    const slugString = params.slug.toString()
+
     const task = await prisma.task.findUnique({
       where: {
-        id: params.slug,
+        id: slugString,
       },
       include: {
         Project: true,

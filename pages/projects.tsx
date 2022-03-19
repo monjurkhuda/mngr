@@ -10,7 +10,6 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { PrismaClient } from '@prisma/client'
-
 import Head from 'next/head'
 import NextLink from 'next/link'
 import { HiOutlineClipboardList } from 'react-icons/hi'
@@ -165,10 +164,10 @@ function Overview({
 }
 
 export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps({ req }) {
+  async getServerSideProps({ req, res }) {
     const {
       user: { email },
-    } = await getSession(req)
+    } = await getSession(req, res)
 
     const prisma = new PrismaClient()
 

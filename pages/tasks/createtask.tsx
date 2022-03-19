@@ -1,54 +1,23 @@
-import React, { useState } from 'react'
+import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import {
-  Formik,
-  Form,
-  Field,
-  useFormikContext,
-  ErrorMessage,
-  FormikConsumer,
-} from 'formik'
-import { RootState } from '../../redux/store'
-import { useSelector, useDispatch } from 'react-redux'
-import { prisma } from '../../prisma/db'
-import { withPageAuthRequired, useUser, getSession } from '@auth0/nextjs-auth0'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
-
-import {
-  Flex,
-  Heading,
-  Avatar,
-  Text,
-  IconButton,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Divider,
   Button,
-  Icon,
+  Flex,
   FormControl,
-  FormLabel,
   FormErrorMessage,
-  FormHelperText,
+  FormLabel,
+  Heading,
   Input,
-  Checkbox,
   Select,
 } from '@chakra-ui/react'
-import {
-  RiSettings5Line,
-  RiEyeLine,
-  RiPencilRuler2Line,
-  RiTaskLine,
-  RiCalendarEventLine,
-  RiFullscreenExitFill,
-} from 'react-icons/ri'
-import NavigationColumn from '../../components/navigation_column/NavigationColumn'
-import NavigationColumnLogo from '../../components/navigation_column/NavigationColumnLogo'
+import { Field, Form, Formik, useFormikContext } from 'formik'
+import React, { useState } from 'react'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import { RiTaskLine } from 'react-icons/ri'
 import Navigation from '../../components/navigation_column/Navigation'
+import NavigationColumnLogo from '../../components/navigation_column/NavigationColumnLogo'
+import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
+import { prisma } from '../../prisma/db'
 
 async function createTaskApi(task) {
   const response = await fetch('/api/createtask', {
@@ -64,7 +33,7 @@ async function createTaskApi(task) {
 }
 
 function createtask({ users, projects, currentUser }) {
-  const [dueDate, setDueDate] = useState()
+  const [dueDate, setDueDate] = useState(new Date())
 
   function DatePickerField({ name }) {
     const formik = useFormikContext()
@@ -346,10 +315,10 @@ function createtask({ users, projects, currentUser }) {
 }
 
 export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps({ req }) {
+  async getServerSideProps({ req, res }) {
     const {
       user: { email },
-    } = await getSession(req)
+    } = await getSession(req, res)
 
     const currentUser = await prisma.user.findUnique({
       where: {

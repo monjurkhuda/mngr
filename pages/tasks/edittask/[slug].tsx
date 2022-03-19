@@ -285,18 +285,20 @@ const EditTask = ({ currentUser, task, projects }) => {
 }
 
 export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps({ req, params }) {
+  async getServerSideProps({ req, res, params }) {
     const {
       user: { email },
-    } = await getSession(req)
+    } = await getSession(req, res)
 
     const currentUser = await prisma.user.findUnique({
       where: { email: email },
     })
 
+    const slugString = params.slug.toString()
+
     const task = await prisma.task.findUnique({
       where: {
-        id: params.slug,
+        id: slugString,
       },
       include: {
         Project: true,

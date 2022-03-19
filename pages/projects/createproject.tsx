@@ -1,6 +1,5 @@
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import {
-  Avatar,
   Button,
   Flex,
   FormControl,
@@ -33,8 +32,7 @@ async function createProject(project) {
 }
 
 function createproject({ currentUser }) {
-  const [dueDate, setDueDate] = useState()
-  const [projectImage, setProjectImage] = useState()
+  const [dueDate, setDueDate] = useState(new Date())
 
   function DatePickerField({ name }) {
     const formik = useFormikContext()
@@ -113,8 +111,6 @@ function createproject({ currentUser }) {
             >
               {(props) => (
                 <Form>
-                  <Avatar src={projectImage} size="lg" />
-
                   <Field name="image">
                     {({ field, form }) => (
                       <FormControl
@@ -124,11 +120,8 @@ function createproject({ currentUser }) {
                         <Input
                           {...field}
                           id="image"
-                          placeholder="Project Logo"
+                          placeholder="Project Logo URL"
                           mt={4}
-                          onChange={(e) => {
-                            setProjectImage(e.target.value)
-                          }}
                         />
                         <FormErrorMessage>{form.errors.image}</FormErrorMessage>
                       </FormControl>
@@ -186,6 +179,7 @@ function createproject({ currentUser }) {
                   </Flex>
 
                   <Button
+                    {...props}
                     mt={4}
                     colorScheme="purple"
                     isLoading={props.isSubmitting}
@@ -216,10 +210,10 @@ function createproject({ currentUser }) {
 }
 
 export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps({ req }) {
+  async getServerSideProps({ req, res }) {
     const {
       user: { email },
-    } = await getSession(req)
+    } = await getSession(req, res)
 
     const currentUser = await prisma.user.findUnique({
       where: { email: email },

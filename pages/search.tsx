@@ -1,6 +1,5 @@
 import { getSession, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import {
-  Avatar,
   Button,
   Divider,
   Flex,
@@ -11,9 +10,6 @@ import {
   Link,
   Table,
   Tbody,
-  Td,
-  Text,
-  Tr,
 } from '@chakra-ui/react'
 import { PrismaClient } from '@prisma/client'
 import Head from 'next/head'
@@ -25,8 +21,8 @@ import OverviewRightColumn from '../components/overview_right_column/OverviewRig
 import ProjectSearchResult from '../components/search_result/ProjectSearchResult'
 import TaskSearchResult from '../components/search_result/TaskSearchResult'
 
-function Users({ currentUser, taskSearchResult, projectSearchResult }) {
-  const [searchTerm, setSearchTerm] = useState()
+function Users({ taskSearchResult, projectSearchResult }) {
+  const [searchTerm, setSearchTerm] = useState('')
   return (
     <>
       <Head>
@@ -182,40 +178,23 @@ function Users({ currentUser, taskSearchResult, projectSearchResult }) {
 }
 
 export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps({ req, query }) {
+  async getServerSideProps({ req, res, query }) {
     const {
       user: { email },
-    } = await getSession(req)
+    } = await getSession(req, res)
 
     const prisma = new PrismaClient()
 
-    const currentUser = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-      include: {
-        Tasks: {
-          orderBy: { dueDate: 'asc' },
-          where: { completed: false },
-          include: { Project: true },
-        },
-        Projects: {
-          include: {
-            Tasks: true,
-          },
-        },
-      },
-    })
-
     const searchTerm = query.searchterm
+    const searchTermString = searchTerm.toString()
     var taskSearchResult = ''
     var projectSearchResult = ''
 
     if (searchTerm?.length > 0) {
-      taskSearchResult = await prisma.task.findMany({
+      const taskSearch = await prisma.task.findMany({
         where: {
           title: {
-            search: searchTerm,
+            search: searchTermString,
           },
         },
         include: {
@@ -223,22 +202,25 @@ export const getServerSideProps = withPageAuthRequired({
         },
       })
 
-      projectSearchResult = await prisma.project.findMany({
+      taskSearchResult = JSON.stringify(taskSearch)
+
+      const projectSearch = await prisma.project.findMany({
         where: {
           title: {
-            search: searchTerm,
+            search: searchTermString,
           },
         },
       })
+
+      projectSearchResult = JSON.stringify(projectSearch)
     }
 
     await prisma.$disconnect()
 
     return {
       props: {
-        currentUser: JSON.parse(JSON.stringify(currentUser)),
-        taskSearchResult: JSON.parse(JSON.stringify(taskSearchResult)),
-        projectSearchResult: JSON.parse(JSON.stringify(projectSearchResult)),
+        taskSearchResult: JSON.parse(taskSearchResult),
+        projectSearchResult: JSON.parse(projectSearchResult),
       },
     }
   },
