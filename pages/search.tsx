@@ -186,11 +186,12 @@ export const getServerSideProps = withPageAuthRequired({
     const prisma = new PrismaClient()
 
     const searchTerm = query.searchterm
-    const searchTermString = searchTerm.toString()
-    var taskSearchResult = ''
-    var projectSearchResult = ''
+
+    var taskSearchResult = '{}'
+    var projectSearchResult = '{}'
 
     if (searchTerm?.length > 0) {
+      const searchTermString = searchTerm.toString()
       const taskSearch = await prisma.task.findMany({
         where: {
           title: {

@@ -5,6 +5,7 @@ const afterCallback = async (req, res, session, state) => {
   try {
     await createUser(session.user.email)
   } catch (err) {
+    console.log('this 1')
     console.log(err)
   }
 
@@ -16,6 +17,7 @@ export default handleAuth({
     try {
       await handleCallback(req, res, { afterCallback })
     } catch (error) {
+      console.log('this 2')
       res.status(error.status || 500).end(error.message)
     }
   },
