@@ -109,7 +109,6 @@ function createtask({ users, projects, currentUser }) {
               }}
               onSubmit={async (values, actions) => {
                 await createTaskApi(values)
-                await alert(JSON.stringify(values))
               }}
             >
               {(props) => (
