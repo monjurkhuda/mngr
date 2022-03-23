@@ -17,6 +17,7 @@ import Navigation from '../components/navigation_column/Navigation'
 import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
 import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
 import { prisma } from '../prisma/db'
+import { useRouter } from 'next/router'
 
 async function editProfile(profile) {
   const response = await fetch('/api/editprofile', {
@@ -32,6 +33,7 @@ async function editProfile(profile) {
 }
 
 const ProjectPage = ({ currentUser }) => {
+  const router = useRouter()
   return (
     <>
       <Flex
@@ -87,6 +89,7 @@ const ProjectPage = ({ currentUser }) => {
               }}
               onSubmit={async (values) => {
                 await editProfile(values)
+                router.push('/overview')
               }}
             >
               {(props) => (

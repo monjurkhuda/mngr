@@ -18,6 +18,7 @@ import Navigation from '../../../components/navigation_column/Navigation'
 import NavigationColumnLogo from '../../../components/navigation_column/NavigationColumnLogo'
 import OverviewRightColumn from '../../../components/overview_right_column/OverviewRightColumn'
 import { prisma } from '../../../prisma/db'
+import { useRouter } from 'next/router'
 
 async function editProject(project) {
   const response = await fetch('/api/editproject', {
@@ -34,7 +35,7 @@ async function editProject(project) {
 
 const EditProject = ({ currentUser, project }) => {
   const parsedDate = Date.parse(project.dueDate)
-
+  const router = useRouter()
   const [dueDate, setDueDate] = useState(new Date(parsedDate))
 
   function DatePickerField({ name }) {
@@ -109,7 +110,7 @@ const EditProject = ({ currentUser, project }) => {
               }}
               onSubmit={async (values, actions) => {
                 await editProject(values)
-                //await alert(JSON.stringify(values))
+                router.push('/projects')
               }}
             >
               {(props) => (

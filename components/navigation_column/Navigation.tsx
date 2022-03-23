@@ -12,7 +12,7 @@ function Navigation() {
   const today = format(new Date(), 'MMM d, yyyy')
 
   var historyActive = ''
-  var usersActive = ''
+  var userActive = ''
   var searchActive = ''
 
   useEffect(() => {
@@ -21,8 +21,8 @@ function Navigation() {
 
   if (queryString === '/history') {
     historyActive = 'active'
-  } else if (queryString === '/users') {
-    usersActive = 'active'
+  } else if (queryString === '/user') {
+    userActive = 'active'
   } else if (queryString === '/search') {
     searchActive = 'active'
   }
@@ -65,12 +65,14 @@ function Navigation() {
             link={'/history'}
           />
 
-          <NavigationItem
-            navClass={usersActive}
-            icon={FiUser}
-            text={'Users'}
-            link={'/users'}
-          />
+          <Flex display={['flex', 'flex', 'none', 'none', 'none']}>
+            <NavigationItem
+              navClass={userActive}
+              icon={FiUser}
+              text={'User'}
+              link={'/user'}
+            />
+          </Flex>
 
           <NavigationItem
             navClass=""

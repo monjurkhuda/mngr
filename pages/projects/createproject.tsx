@@ -17,6 +17,7 @@ import Navigation from '../../components/navigation_column/Navigation'
 import NavigationColumnLogo from '../../components/navigation_column/NavigationColumnLogo'
 import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
 import { prisma } from '../../prisma/db'
+import { useRouter } from 'next/router'
 
 async function createProject(project) {
   const response = await fetch('/api/createproject', {
@@ -33,6 +34,7 @@ async function createProject(project) {
 
 function createproject({ currentUser }) {
   const [dueDate, setDueDate] = useState(new Date())
+  const router = useRouter()
 
   function DatePickerField({ name }) {
     const formik = useFormikContext()
@@ -106,7 +108,8 @@ function createproject({ currentUser }) {
               }}
               onSubmit={async (values, actions) => {
                 await createProject(values)
-                //await alert(JSON.stringify(values))
+                actions.setSubmitting(true)
+                router.push('/projects')
               }}
             >
               {(props) => (

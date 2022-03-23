@@ -11,17 +11,13 @@ import {
   Tr,
 } from '@chakra-ui/react'
 import { PrismaClient } from '@prisma/client'
-import { GraphQLClient } from 'graphql-request'
 import Head from 'next/head'
 import { GrFormEdit } from 'react-icons/gr'
 import Navigation from '../components/navigation_column/Navigation'
 import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
 import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
-import { GET_ALL_USERS } from './api/graphql/queries'
 
-function Users({ currentUser, allUsers }) {
-  console.log(allUsers)
-
+function Users({ currentUser }) {
   return (
     <>
       <Head>
@@ -61,9 +57,12 @@ function Users({ currentUser, allUsers }) {
           <Flex
             direction="column"
             alignItems="center"
-            display={['flex', 'flex', 'none', 'none', 'none']}
             w="100%"
             p={2}
+            backgroundColor="white"
+            borderRadius={10}
+            boxShadow="base"
+            mt={4}
           >
             <Text size="sm" fontWeight="600" color="gray.500">
               My Profile:
@@ -91,36 +90,6 @@ function Users({ currentUser, allUsers }) {
               {currentUser.email}
             </Text>
           </Flex>
-
-          <Flex mt={2}>
-            <Flex align="flex-end">
-              <Heading as="h2" size="lg" letterSpacing="tight" ml={1}>
-                All Users
-              </Heading>
-            </Flex>
-          </Flex>
-
-          <Table mt={2} borderBottom="4px" borderColor="#e3e3e3">
-            {allUsers.map((user) => (
-              <Tbody>
-                <Tr
-                  backgroundColor="white"
-                  borderTop="2px"
-                  borderColor="#f6f6f6"
-                >
-                  <Td>
-                    <Flex>
-                      <Avatar src={user.image} />
-                      <Flex direction="column" ml={4}>
-                        <Heading size="md">{user.username}</Heading>
-                        <Text fontSize={16}>{user.email}</Text>
-                      </Flex>
-                    </Flex>
-                  </Td>
-                </Tr>
-              </Tbody>
-            ))}
-          </Table>
         </Flex>
         {/* Column 3 */}
         <Flex
@@ -145,8 +114,6 @@ export const getServerSideProps = withPageAuthRequired({
     } = await getSession(req, res)
 
     const prisma = new PrismaClient()
-    const endpoint = 'http://localhost:3000/api/graphql/graphql'
-    const graphQLClient = new GraphQLClient(endpoint, {})
 
     const currentUser = await prisma.user.findUnique({
       where: {
@@ -166,14 +133,11 @@ export const getServerSideProps = withPageAuthRequired({
       },
     })
 
-    const allUsers = await graphQLClient.request(GET_ALL_USERS)
-
     await prisma.$disconnect()
 
     return {
       props: {
         currentUser: JSON.parse(JSON.stringify(currentUser)),
-        allUsers: JSON.parse(JSON.stringify(allUsers.getAllUsers)),
       },
     }
   },

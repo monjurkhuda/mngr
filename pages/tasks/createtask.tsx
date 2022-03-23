@@ -18,6 +18,7 @@ import Navigation from '../../components/navigation_column/Navigation'
 import NavigationColumnLogo from '../../components/navigation_column/NavigationColumnLogo'
 import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
 import { prisma } from '../../prisma/db'
+import { useRouter } from 'next/router'
 
 async function createTaskApi(task) {
   const response = await fetch('/api/createtask', {
@@ -34,6 +35,7 @@ async function createTaskApi(task) {
 
 function createtask({ users, projects, currentUser }) {
   const [dueDate, setDueDate] = useState(new Date())
+  const router = useRouter()
 
   function DatePickerField({ name }) {
     const formik = useFormikContext()
@@ -109,6 +111,8 @@ function createtask({ users, projects, currentUser }) {
               }}
               onSubmit={async (values, actions) => {
                 await createTaskApi(values)
+                actions.setSubmitting(true)
+                router.push('/overview')
               }}
             >
               {(props) => (
