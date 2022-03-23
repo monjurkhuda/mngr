@@ -22,6 +22,8 @@
 - [x] create components for project and task search results
 - [x] implement project images, remove task images
 - [ ] edit task pages don't load current priority. And priority creation and editing needs formatting
+- [ ] open datepicker above the input. Annoying in mobile
+- [ ] project list is not visible in iOS in create a task page
 
 ## Alpha: Project Manager with users and roles:
 
