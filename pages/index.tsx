@@ -14,7 +14,7 @@ export default function Home() {
       <Head>
         <title>Overview. M: Project Management Simplified</title>
       </Head>
-      <Link href="/api/auth/login">
+      <Link href="/overview">
         <Button size="lg" colorScheme="purple">
           Login
         </Button>
