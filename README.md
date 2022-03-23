@@ -1,13 +1,4 @@
-# Mngr
-
-## design:
-
-- [x] redux framework
-- [ ] jest testing
-- [x] graphql
-- [x] postgres database
-
-# Roadmap:
+# Mngr Roadmap:
 
 ## Beta: MVP Solo Project Manager:
 
@@ -27,7 +18,8 @@
 
 ## Alpha: Project Manager with users and roles:
 
-- [ ] task and project images
+- [ ] delete projects and tasks
+- [x] project images
 - [ ] user roles
 - [ ] admin and managers can create projects (project avatar image)
 - [ ] admin includes users in project and assigns lead
@@ -36,6 +28,6 @@
 - [ ] admin or lead can review and approve task completion
 - [ ] anyone can comment on a task or project
 - [ ] like or comment on comments
-- [ ] user ticket history, project history
+- [x] user project history
 - [ ] user moderation (remove user, ban email, make joining project invite only, restrict joining project to certain emails with verification required)
 - [ ] search projects, tasks, and comments (titles and descriptions)
