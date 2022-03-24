@@ -6,13 +6,16 @@
 - [x] project overview with in-progress and completed lanes.
 - [x] search projects and tasks (titles)
 
-### Bugs and Fixes:
+### Crucial Fixes:
 
 - [x] fix remaining time. Keeps counting in reverse when past due
 - [x] Fix date display when editing project or task
 - [x] create components for project and task search results
 - [x] implement project images, remove task images
-- [ ] edit task pages don't load current priority. And priority creation and editing needs formatting
+- [x] edit task pages don't load current priority. And priority creation and editing needs formatting
+
+### Annoying:
+
 - [ ] open datepicker above the input. Annoying in mobile
 - [ ] project list is not visible in iOS in create a task page
 

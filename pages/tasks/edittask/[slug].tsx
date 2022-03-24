@@ -8,6 +8,8 @@ import {
   Heading,
   Input,
   Select,
+  Stack,
+  Text,
 } from '@chakra-ui/react'
 import { Field, Form, Formik, useFormikContext } from 'formik'
 import { useRouter } from 'next/router'
@@ -33,6 +35,7 @@ async function editTask(task) {
 }
 
 const EditTask = ({ task, projects }) => {
+  const currentTaskPriority = task.priority
   const parsedDate = Date.parse(task.dueDate)
   const router = useRouter()
   const [dueDate, setDueDate] = useState(new Date(parsedDate))
@@ -90,7 +93,7 @@ const EditTask = ({ task, projects }) => {
                 id: task.id,
                 title: task.title,
                 description: task.description,
-                priority: task.priority,
+                priority: String(task.priority),
                 dueDate: task.dueDate,
                 projectId: task.Project[0].id,
               }}
@@ -189,35 +192,145 @@ const EditTask = ({ task, projects }) => {
                         <FormLabel htmlFor="priority" mt={2}>
                           Priority
                         </FormLabel>
+
                         <div role="group" aria-labelledby="my-radio-group">
-                          <label>
-                            <Field type="radio" name="priority" value="1" />1
-                          </label>
-                          <label>
-                            <Field type="radio" name="priority" value="2" />2
-                          </label>
-                          <label>
-                            <Field type="radio" name="priority" value="3" />3
-                          </label>
-                          <label>
-                            <Field type="radio" name="priority" value="5" />5
-                          </label>
-                          <label>
-                            <Field type="radio" name="priority" value="8" />8
-                          </label>
-                          <label>
-                            <Field type="radio" name="priority" value="13" />
-                            13
-                          </label>
-                          <label>
-                            <Field type="radio" name="priority" value="21" />
-                            21
-                          </label>
-                          <label>
-                            <Field type="radio" name="priority" value="40" />
-                            40
-                          </label>
+                          <Stack direction={['column', 'row']} spacing="6px">
+                            <Flex>
+                              <Flex
+                                alignItems="center"
+                                p={2}
+                                borderRadius={10}
+                                border="2px"
+                                borderColor="purple.500"
+                                w="fit-content"
+                              >
+                                <Field type="radio" name="priority" value="1" />
+                                <Text ml={1} color="purple" fontWeight="600">
+                                  1
+                                </Text>
+                              </Flex>
+
+                              <Flex
+                                alignItems="center"
+                                p={2}
+                                borderRadius={10}
+                                ml={2}
+                                border="2px"
+                                borderColor="purple.500"
+                                w="fit-content"
+                              >
+                                <Field type="radio" name="priority" value="2" />
+                                <Text ml={1} color="purple" fontWeight="600">
+                                  2
+                                </Text>
+                              </Flex>
+
+                              <Flex
+                                alignItems="center"
+                                p={2}
+                                borderRadius={10}
+                                ml={2}
+                                border="2px"
+                                borderColor="purple.500"
+                                w="fit-content"
+                              >
+                                <Field type="radio" name="priority" value="3" />
+                                <Text ml={1} color="purple" fontWeight="600">
+                                  3
+                                </Text>
+                              </Flex>
+
+                              <Flex
+                                alignItems="center"
+                                p={2}
+                                borderRadius={10}
+                                ml={2}
+                                border="2px"
+                                borderColor="purple.500"
+                                w="fit-content"
+                              >
+                                <Field type="radio" name="priority" value="5" />
+                                <Text ml={1} color="purple" fontWeight="600">
+                                  5
+                                </Text>
+                              </Flex>
+                            </Flex>
+
+                            <Flex>
+                              <Flex
+                                alignItems="center"
+                                p={2}
+                                borderRadius={10}
+                                border="2px"
+                                borderColor="purple.500"
+                                w="fit-content"
+                              >
+                                <Field type="radio" name="priority" value="8" />
+                                <Text ml={1} color="purple" fontWeight="600">
+                                  8
+                                </Text>
+                              </Flex>
+
+                              <Flex
+                                alignItems="center"
+                                p={2}
+                                borderRadius={10}
+                                ml={2}
+                                border="2px"
+                                borderColor="purple.500"
+                                w="fit-content"
+                              >
+                                <Field
+                                  type="radio"
+                                  name="priority"
+                                  value="13"
+                                />
+                                <Text ml={1} color="purple" fontWeight="600">
+                                  13
+                                </Text>
+                              </Flex>
+
+                              <Flex
+                                alignItems="center"
+                                p={2}
+                                borderRadius={10}
+                                ml={2}
+                                border="2px"
+                                borderColor="purple.500"
+                                w="fit-content"
+                              >
+                                <Field
+                                  type="radio"
+                                  name="priority"
+                                  value="21"
+                                />
+                                <Text ml={1} color="purple" fontWeight="600">
+                                  21
+                                </Text>
+                              </Flex>
+
+                              <Flex
+                                alignItems="center"
+                                p={2}
+                                borderRadius={10}
+                                ml={2}
+                                border="2px"
+                                borderColor="purple.500"
+                                w="fit-content"
+                              >
+                                <Field
+                                  type="radio"
+                                  name="priority"
+                                  value="40"
+                                />
+                                <Text ml={1} color="purple" fontWeight="600">
+                                  40
+                                </Text>
+                              </Flex>
+                            </Flex>
+                          </Stack>
                         </div>
+
                         <FormErrorMessage>
                           {form.errors.priority}
                         </FormErrorMessage>
