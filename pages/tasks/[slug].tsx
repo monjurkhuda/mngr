@@ -7,8 +7,7 @@ import { useEffect, useState } from 'react'
 import { BsClockFill } from 'react-icons/bs'
 import { HiOutlineClipboardList } from 'react-icons/hi'
 import { RiTaskLine } from 'react-icons/ri'
-import Navigation from '../../components/navigation_column/Navigation'
-import NavigationColumnLogo from '../../components/navigation_column/NavigationColumnLogo'
+import NavigationColumn from '../../components/navigation_column/NavigationColumn'
 import OverviewRightColumn from '../../components/overview_right_column/OverviewRightColumn'
 
 const TaskPage = ({ task }) => {
@@ -53,20 +52,8 @@ const TaskPage = ({ task }) => {
         overflow="hidden"
       >
         {/* Column 1 */}
-        <Flex
-          flexDir="column"
-          w={['100%', '100%', '10%', '10%', '10%']}
-          h={['100%', '100%', '30%', '30%', '30%']}
-          borderRight="2px"
-          borderColor="#eeeeee"
-          alignItems="center"
-          justifyContent="space-between"
-          justifyItems="space-between"
-          alignContent="space-between"
-        >
-          <NavigationColumnLogo />
-          <Navigation />
-        </Flex>
+        <NavigationColumn />
+
         {/*Column2*/}
         <Flex
           className="column_two"

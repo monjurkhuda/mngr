@@ -10,14 +10,13 @@ import {
   Input,
 } from '@chakra-ui/react'
 import { Field, Form, Formik } from 'formik'
+import { useRouter } from 'next/router'
 import React from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import { HiOutlineClipboardList } from 'react-icons/hi'
-import Navigation from '../components/navigation_column/Navigation'
-import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
+import NavigationColumn from '../components/navigation_column/NavigationColumn'
 import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
 import { prisma } from '../prisma/db'
-import { useRouter } from 'next/router'
 
 async function editProfile(profile) {
   const response = await fetch('/api/editprofile', {
@@ -42,20 +41,7 @@ const ProjectPage = ({ currentUser }) => {
         overflow="hidden"
       >
         {/* Column 1 */}
-        <Flex
-          flexDir="column"
-          w={['100%', '100%', '10%', '10%', '10%']}
-          h={['100%', '100%', '30%', '30%', '30%']}
-          borderRight="2px"
-          borderColor="#eeeeee"
-          alignItems="center"
-          justifyContent="space-between"
-          justifyItems="space-between"
-          alignContent="space-between"
-        >
-          <NavigationColumnLogo />
-          <Navigation />
-        </Flex>
+        <NavigationColumn />
         {/*Column2*/}
         <Flex
           className="column_two"

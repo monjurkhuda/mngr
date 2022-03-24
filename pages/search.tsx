@@ -15,8 +15,7 @@ import { PrismaClient } from '@prisma/client'
 import Head from 'next/head'
 import { useState } from 'react'
 import { GoSearch } from 'react-icons/go'
-import Navigation from '../components/navigation_column/Navigation'
-import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
+import NavigationColumn from '../components/navigation_column/NavigationColumn'
 import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
 import ProjectSearchResult from '../components/search_result/ProjectSearchResult'
 import TaskSearchResult from '../components/search_result/TaskSearchResult'
@@ -34,20 +33,7 @@ function Users({ taskSearchResult, projectSearchResult }) {
         overflow="hidden"
       >
         {/* Column 1 */}
-        <Flex
-          flexDir="column"
-          w={['100%', '100%', '10%', '10%', '10%']}
-          h={['100%', '100%', '30%', '30%', '30%']}
-          borderRight="2px"
-          borderColor="#eeeeee"
-          alignItems="center"
-          justifyContent="space-between"
-          justifyItems="space-between"
-          alignContent="space-between"
-        >
-          <NavigationColumnLogo />
-          <Navigation />
-        </Flex>
+        <NavigationColumn />
 
         {/* Column 2 */}
         <Flex

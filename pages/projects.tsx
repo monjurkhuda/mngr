@@ -14,8 +14,7 @@ import Head from 'next/head'
 import NextLink from 'next/link'
 import { HiOutlineClipboardList } from 'react-icons/hi'
 import { RiHistoryLine, RiTaskLine } from 'react-icons/ri'
-import Navigation from '../components/navigation_column/Navigation'
-import NavigationColumnLogo from '../components/navigation_column/NavigationColumnLogo'
+import NavigationColumn from '../components/navigation_column/NavigationColumn'
 import OverviewRightColumn from '../components/overview_right_column/OverviewRightColumn'
 import ProjectTableRow from '../components/ProjectTableRow'
 
@@ -39,20 +38,7 @@ function Overview({
         overflow="hidden"
       >
         {/* Column 1 */}
-        <Flex
-          flexDir="column"
-          w={['100%', '100%', '10%', '10%', '10%']}
-          h={['100%', '100%', '30%', '30%', '30%']}
-          borderRight="2px"
-          borderColor="#eeeeee"
-          alignItems="center"
-          justifyContent="space-between"
-          justifyItems="space-between"
-          alignContent="space-between"
-        >
-          <NavigationColumnLogo />
-          <Navigation />
-        </Flex>
+        <NavigationColumn />
 
         {/* Column 2 */}
         <Flex

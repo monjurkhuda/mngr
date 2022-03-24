@@ -10,15 +10,14 @@ import {
   Select,
 } from '@chakra-ui/react'
 import { Field, Form, Formik, useFormikContext } from 'formik'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { HiOutlineClipboardList } from 'react-icons/hi'
-import Navigation from '../../../components/navigation_column/Navigation'
-import NavigationColumnLogo from '../../../components/navigation_column/NavigationColumnLogo'
+import NavigationColumn from '../../../components/navigation_column/NavigationColumn'
 import OverviewRightColumn from '../../../components/overview_right_column/OverviewRightColumn'
 import { prisma } from '../../../prisma/db'
-import { useRouter } from 'next/router'
 
 async function editTask(task) {
   const response = await fetch('/api/edittask', {
@@ -60,20 +59,7 @@ const EditTask = ({ task, projects }) => {
         overflow="hidden"
       >
         {/* Column 1 */}
-        <Flex
-          flexDir="column"
-          w={['100%', '100%', '10%', '10%', '10%']}
-          h={['100%', '100%', '30%', '30%', '30%']}
-          borderRight="2px"
-          borderColor="#eeeeee"
-          alignItems="center"
-          justifyContent="space-between"
-          justifyItems="space-between"
-          alignContent="space-between"
-        >
-          <NavigationColumnLogo />
-          <Navigation />
-        </Flex>
+        <NavigationColumn />
         {/*Column2*/}
 
         <Flex
