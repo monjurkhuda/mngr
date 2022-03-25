@@ -16,7 +16,7 @@
 
 ### Annoying:
 
-- [ ] open datepicker above the input. Annoying in mobile
+- [x] disable mobile keyboard when datepicker selected.
 - [ ] project list is not visible in iOS in create a task page
 
 ## Alpha: Project Manager with users and roles:
