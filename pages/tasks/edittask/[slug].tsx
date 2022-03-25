@@ -35,7 +35,6 @@ async function editTask(task) {
 }
 
 const EditTask = ({ task, projects }) => {
-  const currentTaskPriority = task.priority
   const parsedDate = Date.parse(task.dueDate)
   const router = useRouter()
   const [dueDate, setDueDate] = useState(new Date(parsedDate))
@@ -51,6 +50,7 @@ const EditTask = ({ task, projects }) => {
           formik.setFieldValue(name, date)
         }}
         popperPlacement="top-end"
+        onFocus={(e) => e.target.blur()}
       />
     )
   }
