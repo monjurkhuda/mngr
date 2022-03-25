@@ -47,6 +47,7 @@ function createproject({ currentUser }) {
           setDueDate(date)
           formik.setFieldValue(name, date)
         }}
+        onFocus={(e) => e.target.blur()}
       />
     )
   }

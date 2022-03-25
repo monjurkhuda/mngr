@@ -49,7 +49,6 @@ const EditTask = ({ task, projects }) => {
           setDueDate(date)
           formik.setFieldValue(name, date)
         }}
-        popperPlacement="top-end"
         onFocus={(e) => e.target.blur()}
       />
     )

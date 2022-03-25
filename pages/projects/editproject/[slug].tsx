@@ -47,6 +47,7 @@ const EditProject = ({ currentUser, project }) => {
           setDueDate(date)
           formik.setFieldValue(name, date)
         }}
+        onFocus={(e) => e.target.blur()}
       />
     )
   }

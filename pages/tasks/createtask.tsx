@@ -50,6 +50,7 @@ function createtask({ users, projects, currentUser }) {
           setDueDate(date)
           formik.setFieldValue(name, date)
         }}
+        onFocus={(e) => e.target.blur()}
       />
     )
   }
